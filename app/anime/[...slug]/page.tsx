@@ -41,21 +41,16 @@ export default async function AnimeDetailPrettyPage({
     const { url: legacyUrl } = await searchParams;
     const path = slug.join('/');
 
-    // Handle legacy URLs: /anime/detail?url=... or /anime/id?url=...
     if ((path === 'detail' || path === 'id') && legacyUrl) {
         const slugFromUrl = getSlugFromUrl(legacyUrl);
         if (slugFromUrl) {
-            // Remove 'anime/' prefix if present in slug from URL to avoid duplication
             const cleanSlug = slugFromUrl.replace(/^anime\//, '');
             redirect(`/anime/${cleanSlug}`);
         }
     }
 
-    // Reconstruct the full source URL. 
-    // If the path doesn't start with 'anime/', we prepend it because this is the detail page.
     const fullPath = path.startsWith('anime/') ? path : `anime/${path}`;
     const url = getUrlFromSlug(fullPath);
-
     const anime = await getAnimeDetail(url);
 
     if (!anime) {
@@ -69,15 +64,14 @@ export default async function AnimeDetailPrettyPage({
         );
     }
 
-    // Use the first episode link for the "Nonton Sekarang" button if available
     const watchUrl = anime.episodes.length > 0
         ? `/watch/${getSlugFromUrl(anime.episodes[0].link)}`
         : "#";
 
     return (
         <div className="min-h-screen bg-background pb-20">
-            {/* Banner Section */}
-            <div className="relative w-full h-[50vh] overflow-hidden">
+            {/* Banner */}
+            <div className="relative w-full h-[35vh] md:h-[50vh] overflow-hidden">
                 <div
                     className="absolute inset-0 bg-cover bg-center blur-sm scale-110 opacity-30"
                     style={{ backgroundImage: `url(${anime.image})` }}
@@ -85,31 +79,29 @@ export default async function AnimeDetailPrettyPage({
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 -mt-64 relative z-10">
-                <div className="flex flex-col md:flex-row gap-10">
-                    {/* Left: Poster */}
-                    <div className="w-full md:w-72 flex-shrink-0">
-                        <div className="aspect-[2/3] relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+            <div className="max-w-7xl mx-auto px-4 md:px-6 -mt-32 md:-mt-64 relative z-10">
+
+                {/* Poster + Info Row */}
+                <div className="flex flex-row gap-4 md:gap-10 items-start">
+
+                    {/* Poster */}
+                    <div className="w-24 sm:w-32 md:w-72 flex-shrink-0">
+                        <div className="aspect-[2/3] relative rounded-xl md:rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                             <Image src={anime.image} alt={anime.title} fill className="object-cover" />
                         </div>
 
-                        <div className="flex flex-col gap-3 mt-6">
+                        {/* Tombol nonton — desktop only */}
+                        <div className="hidden md:flex flex-col gap-3 mt-4">
                             <Link
                                 href={watchUrl}
-                                className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20"
+                                className="w-full bg-primary hover:bg-primary/90 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20"
                             >
                                 <Play className="w-5 h-5 fill-current" />
                                 Nonton Sekarang
                             </Link>
                             <div className="flex gap-3">
                                 <WatchlistButton
-                                    anime={{
-                                        id: path,
-                                        title: anime.title,
-                                        image: anime.image,
-                                        type: anime.status,
-                                        href: url
-                                    }}
+                                    anime={{ id: path, title: anime.title, image: anime.image, type: anime.status, href: url }}
                                     variant="icon"
                                 />
                                 <AnimeShareButton animeTitle={anime.title} />
@@ -117,85 +109,108 @@ export default async function AnimeDetailPrettyPage({
                         </div>
                     </div>
 
-                    {/* Right: Info */}
-                    <div className="flex flex-col gap-6 pt-10">
+                    {/* Info */}
+                    <div className="flex flex-col gap-3 md:gap-5 pt-2 md:pt-10 flex-1 min-w-0">
                         <div>
-                            <h1 className="text-4xl md:text-5xl font-black text-white mb-2">{anime.title}</h1>
-                            <p className="text-lg text-muted-foreground font-medium">{anime.originalTitle}</p>
+                            <h1 className="text-lg sm:text-2xl md:text-5xl font-black text-white leading-tight line-clamp-3">{anime.title}</h1>
+                            {anime.originalTitle && (
+                                <p className="text-xs md:text-lg text-muted-foreground font-medium mt-1 line-clamp-1">{anime.originalTitle}</p>
+                            )}
                         </div>
 
-                        <div className="flex flex-wrap gap-4 items-center">
-                            <div className="flex items-center gap-1.5 text-yellow-400 bg-yellow-400/10 px-3 py-1.5 rounded-lg border border-yellow-400/20">
-                                <Star className="w-5 h-5 fill-current" />
+                        {/* Badges */}
+                        <div className="flex flex-wrap gap-1.5 md:gap-3">
+                            <div className="flex items-center gap-1 text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded-lg border border-yellow-400/20 text-xs md:text-sm">
+                                <Star className="w-3 h-3 md:w-4 md:h-4 fill-current" />
                                 <span className="font-bold">{anime.rating || '0.0'}</span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-blue-400 bg-blue-400/10 px-3 py-1.5 rounded-lg border border-blue-400/20">
-                                <Calendar className="w-5 h-5" />
+                            <div className="flex items-center gap-1 text-blue-400 bg-blue-400/10 px-2 py-1 rounded-lg border border-blue-400/20 text-xs md:text-sm">
+                                <Calendar className="w-3 h-3 md:w-4 md:h-4" />
                                 <span className="font-bold">{anime.released}</span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-green-400 bg-green-400/10 px-3 py-1.5 rounded-lg border border-green-400/20">
-                                <Clock className="w-5 h-5" />
+                            <div className="flex items-center gap-1 text-green-400 bg-green-400/10 px-2 py-1 rounded-lg border border-green-400/20 text-xs md:text-sm">
+                                <Clock className="w-3 h-3 md:w-4 md:h-4" />
                                 <span className="font-bold">{anime.status}</span>
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap gap-2">
+                        {/* Genre */}
+                        <div className="flex flex-wrap gap-1.5">
                             {anime.genres.map(g => (
-                                <span key={g} className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-zinc-300">
+                                <span key={g} className="px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-zinc-300">
                                     {g}
                                 </span>
                             ))}
                         </div>
 
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mt-2">
-                            <h3 className="text-lg font-bold text-white mb-3">Sinopsis</h3>
-                            <p className="text-zinc-400 leading-relaxed whitespace-pre-line">
-                                {anime.synopsis}
-                            </p>
+                        {/* Tombol nonton — mobile */}
+                        <div className="flex md:hidden gap-2">
+                            <Link
+                                href={watchUrl}
+                                className="flex-1 bg-primary text-white py-2 rounded-xl font-bold flex items-center justify-center gap-1.5 text-sm"
+                            >
+                                <Play className="w-3.5 h-3.5 fill-current" />
+                                Nonton
+                            </Link>
+                            <WatchlistButton
+                                anime={{ id: path, title: anime.title, image: anime.image, type: anime.status, href: url }}
+                                variant="icon"
+                            />
+                            <AnimeShareButton animeTitle={anime.title} />
                         </div>
+                    </div>
+                </div>
 
-                        {/* Episode List */}
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mt-2 flex flex-col gap-4">
-                            <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                    <List className="w-5 h-5 text-primary" />
-                                    Daftar Episode
-                                </h3>
-                                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">{anime.episodes.length} EPISODE</span>
-                            </div>
+                {/* Sinopsis */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mt-5">
+                    <h3 className="text-sm md:text-lg font-bold text-white mb-2">Sinopsis</h3>
+                    <p className="text-zinc-400 leading-relaxed text-sm whitespace-pre-line">{anime.synopsis}</p>
+                </div>
 
-                            <div className="grid grid-cols-1 gap-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-                                {anime.episodes.map((ep, i) => (
-                                    <Link
-                                        key={i}
-                                        href={`/watch/${getSlugFromUrl(ep.link)}`}
-                                        className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all group"
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center font-bold text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                                                {ep.eps || (anime.episodes.length - i)}
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="text-white font-bold text-sm line-clamp-1">{ep.title}</span>
-                                                <span className="text-zinc-500 text-xs">{ep.date}</span>
-                                            </div>
+                {/* Episode List */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mt-4 flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-sm md:text-lg font-bold text-white flex items-center gap-2">
+                            <List className="w-4 h-4 text-primary" />
+                            Daftar Episode
+                        </h3>
+                        <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">{anime.episodes.length} EP</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-1.5 max-h-[400px] md:max-h-[500px] overflow-y-auto pr-1 custom-scrollbar">
+                        {anime.episodes.map((ep, i) => {
+                            const epNum = ep.eps || (anime.episodes.length - i);
+                            return (
+                                <Link
+                                    key={i}
+                                    href={`/watch/${getSlugFromUrl(ep.link)}`}
+                                    className="flex items-center justify-between p-2.5 md:p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all group"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 flex items-center justify-center font-bold text-primary text-sm group-hover:bg-primary group-hover:text-white transition-colors flex-shrink-0">
+                                            {epNum}
                                         </div>
-                                        <Play className="w-4 h-4 text-zinc-600 group-hover:text-primary transition-colors" />
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-white font-semibold text-sm">Episode {epNum}</span>
+                                            <span className="text-zinc-500 text-xs">{ep.date}</span>
+                                        </div>
+                                    </div>
+                                    <Play className="w-3.5 h-3.5 text-zinc-600 group-hover:text-primary transition-colors flex-shrink-0" />
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-2">
-                            <div>
-                                <p className="text-muted-foreground text-xs uppercase font-bold tracking-wider mb-1">Studio</p>
-                                <p className="text-white font-medium">{anime.studio}</p>
-                            </div>
-                            <div>
-                                <p className="text-muted-foreground text-xs uppercase font-bold tracking-wider mb-1">Kualitas</p>
-                                <p className="text-white font-medium">HD Official</p>
-                            </div>
-                        </div>
+                {/* Detail */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                    <div>
+                        <p className="text-muted-foreground text-xs uppercase font-bold tracking-wider mb-1">Studio</p>
+                        <p className="text-white font-medium text-sm">{anime.studio}</p>
+                    </div>
+                    <div>
+                        <p className="text-muted-foreground text-xs uppercase font-bold tracking-wider mb-1">Kualitas</p>
+                        <p className="text-white font-medium text-sm">HD Official</p>
                     </div>
                 </div>
             </div>
