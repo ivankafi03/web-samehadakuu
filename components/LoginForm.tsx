@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, Lock, Loader2, Play, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import Turnstile from "./Turnstile";
+import Logo from "./Logo";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -69,9 +70,7 @@ export default function LoginForm() {
             <div className="w-full max-w-sm">
                 {/* Logo */}
                 <div className="flex flex-col items-center gap-4 mb-8">
-                    <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                        <Play className="text-white w-5 h-5 fill-current" />
-                    </div>
+                    <Logo size="lg" showText={false} />
                     <div className="text-center">
                         <h1 className="text-2xl font-bold text-white">Masuk ke Akun</h1>
                         <p className="text-zinc-500 text-sm mt-1">Kelola video dan saldo kamu</p>

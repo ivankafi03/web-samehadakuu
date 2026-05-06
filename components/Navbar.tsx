@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import { useSession, signOut } from "next-auth/react";
 import { LogOut, User, LayoutDashboard, Settings } from "lucide-react";
 import MaintenanceBanner from "./MaintenanceBanner";
+import Logo from "./Logo";
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -66,13 +67,8 @@ export default function Navbar() {
             <MaintenanceBanner />
             <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2 group">
-                    <div className="bg-primary p-1.5 rounded-lg group-hover:rotate-12 transition-transform">
-                        <Play className="w-5 h-5 text-white fill-white" />
-                    </div>
-                    <span className="text-xl font-bold tracking-tight text-white">
-                        Same<span className="text-primary">hadakuu</span>
-                    </span>
+                <Link href="/" className="transition-opacity hover:opacity-90">
+                    <Logo size="md" />
                 </Link>
 
                 {/* Desktop Navigation */}
