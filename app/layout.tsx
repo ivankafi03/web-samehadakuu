@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Nunito } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
@@ -75,6 +76,11 @@ export default async function RootLayout({
           </main>
           <ChatWidget />
         </Providers>
+        {/* AdsTerra Popunder - loads once per session */}
+        <Script
+          src="https://pl29360872.profitablecpmratenetwork.com/a6/20/66/a620661409a43f241ad7455bce5763f5.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

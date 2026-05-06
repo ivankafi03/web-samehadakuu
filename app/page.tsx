@@ -4,6 +4,8 @@ import Hero from "@/components/Hero";
 import AnimeSection from "@/components/AnimeSection";
 import { getLatestAnime, getPopularAnime, getFeaturedAnime, getOngoingAnime, getMovieAnime, mapAnimeList } from "@/lib/anime";
 import prisma from "@/lib/prisma";
+import AdUnit from "@/components/ads/AdUnit";
+import AdNative from "@/components/ads/AdNative";
 
 export default async function Home() {
   const settings = await prisma.systemSettings.findFirst();
@@ -60,7 +62,20 @@ export default async function Home() {
         <Suspense fallback={<div className="h-72 bg-zinc-900/50 animate-pulse rounded-xl" />}>
           <TrendingAnimeContent />
         </Suspense>
+
+        {/* AdsTerra Native Banner — menyatu dengan konten */}
+        <AdNative className="my-2" />
       </main>
+
+      {/* AdsTerra Leaderboard Banner — desktop 728x90, mobile 320x50 */}
+      <div className="w-full flex justify-center py-4 bg-zinc-950/50">
+        <div className="hidden md:block">
+          <AdUnit type="leaderboard" />
+        </div>
+        <div className="block md:hidden">
+          <AdUnit type="mobile" />
+        </div>
+      </div>
 
       <footer className="border-t border-white/5 mt-20 pt-10 pb-8 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-zinc-500 text-sm">
