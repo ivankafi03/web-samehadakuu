@@ -8,6 +8,8 @@ import ChatWidget from "@/components/ChatWidget";
 import prisma from "@/lib/prisma";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 // Inter — font utama untuk UI, body, label, form
 const inter = Inter({
@@ -65,6 +67,10 @@ export default async function RootLayout({
     // Non-critical: if check fails, don't block legitimate users
   }
 
+  // Cek apakah user adalah admin — jika iya, sembunyikan semua iklan
+  const session = await getServerSession(authOptions);
+  const isAdmin = (session?.user as any)?.role === "ADMIN";
+
   return (
     <html lang="id" className="dark scroll-smooth">
       <body className={`${inter.variable} ${nunito.variable} font-sans bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary relative`} suppressHydrationWarning>
@@ -76,11 +82,13 @@ export default async function RootLayout({
           </main>
           <ChatWidget />
         </Providers>
-        {/* AdsTerra Popunder - loads once per session */}
-        <Script
-          src="https://pl29360872.profitablecpmratenetwork.com/a6/20/66/a620661409a43f241ad7455bce5763f5.js"
-          strategy="lazyOnload"
-        />
+        {/* AdsTerra Popunder - hanya untuk pengunjung biasa, bukan admin */}
+        {!isAdmin && (
+          <Script
+            src="https://pl29360872.profitablecpmratenetwork.com/a6/20/66/a620661409a43f241ad7455bce5763f5.js"
+            strategy="lazyOnload"
+          />
+        )}
       </body>
     </html>
   );
