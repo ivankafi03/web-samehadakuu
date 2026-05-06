@@ -30,7 +30,10 @@ export const metadata: Metadata = {
   keywords: ["nonton anime", "anime subtitle indonesia", "streaming anime", "anime terbaru", "solo leveling sub indo"],
   authors: [{ name: "Samehadakuu Team" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/icon.png",
   },
 };
 
