@@ -14,7 +14,7 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
     const [activeServerIndex, setActiveServerIndex] = useState(0);
     const [isStarted, setIsStarted] = useState(false);
     const [showAdOverlay, setShowAdOverlay] = useState(false);
-    const [countdown, setCountdown] = useState(8);
+    const [countdown, setCountdown] = useState(5);
     const adContainerRef = useRef<HTMLDivElement>(null);
     const adLoaded = useRef(false);
 
@@ -50,7 +50,7 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
     }, [showAdOverlay]);
 
     const handleStart = () => {
-        setCountdown(8);
+        setCountdown(5);
         setShowAdOverlay(true);
     };
 
@@ -73,24 +73,36 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
             {/* Pre-play Interstitial Ad Overlay */}
             {showAdOverlay && (
                 <div className="fixed inset-0 z-[999] bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center gap-6">
-                    <div className="text-center mb-2">
-                        <p className="text-zinc-400 text-sm">Video akan dimulai dalam</p>
-                        <p className="text-white text-5xl font-black mt-1">{countdown}</p>
-                        <p className="text-zinc-500 text-xs mt-1">detik</p>
+                    {/* Countdown ring */}
+                    <div className="relative flex items-center justify-center w-20 h-20">
+                        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 80 80">
+                            <circle cx="40" cy="40" r="34" fill="none" stroke="#ffffff10" strokeWidth="4" />
+                            <circle
+                                cx="40" cy="40" r="34" fill="none" stroke="#f59e0b" strokeWidth="4"
+                                strokeDasharray={`${2 * Math.PI * 34}`}
+                                strokeDashoffset={`${2 * Math.PI * 34 * (1 - countdown / 5)}`}
+                                strokeLinecap="round"
+                                style={{ transition: 'stroke-dashoffset 1s linear' }}
+                            />
+                        </svg>
+                        <div className="text-center">
+                            <p className="text-white text-2xl font-black leading-none">{countdown}</p>
+                            <p className="text-zinc-500 text-[10px] leading-none mt-0.5">detik</p>
+                        </div>
                     </div>
 
                     {/* Ad inside overlay */}
-                    <div className="bg-zinc-900 border border-white/10 rounded-2xl p-3 overflow-hidden">
-                        <p className="text-zinc-600 text-[10px] uppercase tracking-widest text-center mb-2">Iklan</p>
+                    <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-4 overflow-hidden shadow-2xl">
+                        <p className="text-zinc-600 text-[9px] uppercase tracking-[0.2em] text-center mb-3">Sponsor</p>
                         <div ref={adContainerRef} className="flex items-center justify-center min-w-[300px] min-h-[250px]" />
                     </div>
 
                     <button
                         onClick={skipAd}
-                        className="flex items-center gap-2 text-zinc-400 hover:text-white text-sm transition-colors border border-white/10 hover:border-white/30 px-5 py-2.5 rounded-xl"
+                        className="flex items-center gap-2 text-zinc-500 hover:text-white text-xs transition-all border border-white/8 hover:border-white/20 px-4 py-2 rounded-lg"
                     >
-                        <X className="w-4 h-4" />
-                        Lewati Iklan ({countdown}s)
+                        <X className="w-3 h-3" />
+                        Lewati ({countdown}s)
                     </button>
                 </div>
             )}
