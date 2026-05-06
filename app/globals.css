@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0c0c0e;
+  --foreground: #f2f2f4;
+  --primary: #e11d48;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a1d;
+  --secondary-foreground: #f2f2f4;
+  --muted: #212124;
+  --muted-foreground: #8f8f96;
+  --accent: #1a1a1d;
+  --accent-foreground: #f2f2f4;
+  --card: #111113;
+  --card-foreground: #f2f2f4;
+  --border: #252528;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-nunito);
+}
+
+/* Utility: font-display pakai Nunito untuk heading */
+.font-display {
+  font-family: var(--font-nunito), var(--font-inter), sans-serif;
+}
+
+/* Global: tidak ada italic di seluruh app */
+* {
+  font-style: normal !important;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Clean glass — less blur, more border */
+.glass {
+  @apply bg-white/[0.03] border border-white/[0.07] backdrop-blur-sm;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* No scrollbar but scrollable */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom scrollbar for content areas */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+}
+
+/* Batik pattern (used in admin) */
+.bg-batik-modern {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='batikKawung' x='0' y='0' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='40' cy='40' r='38' fill='none' stroke='white' stroke-width='1' stroke-opacity='0.3' /%3E%3Ccircle cx='40' cy='40' r='20' fill='none' stroke='white' stroke-width='1' stroke-opacity='0.2' /%3E%3Cpath d='M40 0v80M0 40h80' stroke='white' stroke-width='0.5' stroke-opacity='0.2' /%3E%3Ccircle cx='0' cy='0' r='20' fill='none' stroke='white' stroke-width='1' stroke-opacity='0.1' /%3E%3Ccircle cx='80' cy='0' r='20' fill='none' stroke='white' stroke-width='1' stroke-opacity='0.1' /%3E%3Ccircle cx='0' cy='80' r='20' fill='none' stroke='white' stroke-width='1' stroke-opacity='0.1' /%3E%3Ccircle cx='80' cy='80' r='20' fill='none' stroke='white' stroke-width='1' stroke-opacity='0.1' /%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23batikKawung)' /%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+/* Kept for backward compat with existing components */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.bg-dot-grid-sm {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-grid-mesh {
+  background-size: 30px 30px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
