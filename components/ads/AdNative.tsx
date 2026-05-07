@@ -7,7 +7,13 @@ import { usePathname } from "next/navigation";
 // Native Banner Ad (container-based)
 export default function AdNative({ className = "" }: { className?: string }) {
     const pathname = usePathname();
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const [mounted, setMounted] = useState(false);
+    
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const isRestrictedPage = pathname.startsWith("/admin") || pathname.startsWith("/dashboard") || pathname.startsWith("/auth");
     const isMemberOrAdmin = !!session?.user || isRestrictedPage;
 
@@ -15,7 +21,7 @@ export default function AdNative({ className = "" }: { className?: string }) {
     const loaded = useRef(false);
 
     useEffect(() => {
-        if (isMemberOrAdmin || loaded.current || !containerRef.current) return;
+        if (!mounted || isMemberOrAdmin || loaded.current || !containerRef.current) return;
         loaded.current = true;
 
         const script = document.createElement("script");
@@ -24,9 +30,9 @@ export default function AdNative({ className = "" }: { className?: string }) {
         script.setAttribute("data-cfasync", "false");
 
         containerRef.current.appendChild(script);
-    }, [isMemberOrAdmin]);
+    }, [isMemberOrAdmin, mounted]);
 
-    return isMemberOrAdmin ? null : (
+    return (!mounted || status === "loading" || isMemberOrAdmin) ? null : (
         <div className={`w-full overflow-hidden ${className}`}>
             <div id="container-cc6b63069d4fbfd8dc3934796f64530a" ref={containerRef} />
         </div>

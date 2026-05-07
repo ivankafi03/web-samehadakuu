@@ -7,7 +7,13 @@ import { useEffect } from "react";
 
 export default function AdScripts() {
     const pathname = usePathname();
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const [mounted, setMounted] = useState(false);
+    
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     // Jika user sudah login (Member atau Admin), anggap sebagai "Premium" dan matikan iklan
     const isMemberOrAdmin = !!session?.user;
 
@@ -24,6 +30,8 @@ export default function AdScripts() {
 
     // Keamanan brutal: Jika di halaman terlarang, paksa hapus semua sisa-sisa iklan dari DOM
     useEffect(() => {
+        if (!mounted) return;
+
         if (isMemberOrAdmin || isAuthPage) {
             // Tambahkan class admin-page ke body untuk mengaktifkan CSS Nuklir
             document.body.classList.add('admin-page');
@@ -43,10 +51,10 @@ export default function AdScripts() {
             // Hapus class admin-page jika sudah di halaman biasa agar iklan pengunjung muncul lagi
             document.body.classList.remove('admin-page');
         }
-    }, [pathname, isMemberOrAdmin, isAuthPage]);
+    }, [pathname, isMemberOrAdmin, isAuthPage, mounted]);
 
-    // Jika sudah login atau sedang di halaman auth/admin, jangan tampilkan apa-apa
-    if (isMemberOrAdmin || isAuthPage) return null;
+    // Jika belum mounted, masih loading session, atau user adalah member/admin, jangan tampilkan apa-apa
+    if (!mounted || status === "loading" || isMemberOrAdmin || isAuthPage) return null;
 
     return (
         <>

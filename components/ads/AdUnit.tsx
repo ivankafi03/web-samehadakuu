@@ -31,13 +31,19 @@ const AD_CONFIG: Record<AdType, { key: string; width: number; height: number }> 
 
 export default function AdUnit({ type, className = "" }: AdUnitProps) {
     const pathname = usePathname();
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const [mounted, setMounted] = useState(false);
+    
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const isMemberOrAdmin = !!session?.user;
     
     // Keamanan ekstra: Matikan jika di halaman admin/dashboard
     const isRestrictedPage = pathname.startsWith("/admin") || pathname.startsWith("/dashboard") || pathname.startsWith("/auth");
     
-    if (isMemberOrAdmin || isRestrictedPage) return null;
+    if (!mounted || status === "loading" || isMemberOrAdmin || isRestrictedPage) return null;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const loaded = useRef(false);
