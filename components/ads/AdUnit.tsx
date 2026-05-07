@@ -32,34 +32,30 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
     // ── HOOK 2: inject ad script (runs only when shouldRender is true) ─
     useEffect(() => {
         if (!shouldRender || loaded.current || !containerRef.current) return;
+        loaded.current = true;
+
+        const isMobile = window.innerWidth < 768;
+        const finalKey = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.key : config.key;
+        const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
+        const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
+
+        // Use a unique property if possible, or just hope the immediate execution works
+        // AdsTerra invoke.js usually reads atOptions right away.
+        (window as any).atOptions = {
+            key: finalKey,
+            format: "iframe",
+            height: finalHeight,
+            width: finalWidth,
+            params: {},
+        };
+
+        const script = document.createElement("script");
+        script.src = `https://www.highperformanceformat.com/${finalKey}/invoke.js`;
+        script.async = true;
         
-        // Small random delay to prevent atOptions collision if multiple units mount at once
-        const delay = Math.floor(Math.random() * 500);
-        const timer = setTimeout(() => {
-            if (!containerRef.current) return;
-            loaded.current = true;
-
-            // Detect if mobile to use mobile size instead of leaderboard
-            const isMobile = window.innerWidth < 768;
-            const finalKey = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.key : config.key;
-            const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
-            const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
-
-            (window as any).atOptions = {
-                key: finalKey,
-                format: "iframe",
-                height: finalHeight,
-                width: finalWidth,
-                params: {},
-            };
-            const script = document.createElement("script");
-            script.src   = `https://www.highperformanceformat.com/${finalKey}/invoke.js`;
-            script.async = true;
-            containerRef.current.appendChild(script);
-        }, delay);
-
-        return () => clearTimeout(timer);
-    }, [shouldRender, config.key, config.height, config.width, type]);
+        // Append to the specific container
+        containerRef.current.appendChild(script);
+    }, [shouldRender, config.key, config.height, config.width, type, pathname]);
 
     // ── Conditional render AFTER all hooks ───────────────────────────
     if (!shouldRender) return null;
@@ -70,10 +66,15 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
 
     return (
         <div
-            className={`overflow-hidden flex items-center justify-center ${className}`}
-            style={{ minWidth: finalWidth, minHeight: finalHeight }}
+            className={`overflow-hidden flex items-center justify-center mx-auto ${className}`}
+            style={{ 
+                maxWidth: "100%", 
+                width: finalWidth,
+                minHeight: finalHeight,
+                height: "auto"
+            }}
         >
-            <div ref={containerRef} />
+            <div ref={containerRef} className="w-full flex justify-center" />
         </div>
     );
 }
