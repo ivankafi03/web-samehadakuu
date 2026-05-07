@@ -116,15 +116,9 @@ export default async function RootLayout({
         <div className="fixed inset-0 bg-dot-grid opacity-20 pointer-events-none z-[-1]" />
         <Providers>
           <Navbar />
-          <div className="max-w-[1600px] mx-auto px-4 pt-4 flex justify-center">
-            <AdUnit type="mobile" className="!justify-center" />
-          </div>
           <main className="flex-grow">
             {children}
           </main>
-          <div className="max-w-[1600px] mx-auto px-4 py-6 flex justify-center border-t border-white/5">
-            <AdUnit type="rectangle" className="!justify-center" />
-          </div>
           <ChatWidget />
           <AdScripts />
           <AdblockDetector />

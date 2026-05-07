@@ -102,7 +102,12 @@ export default async function WatchPrettyPage({
                 videoUrl={`/watch/${path}`}
             />
 
-            <div className="max-w-[1600px] mx-auto px-4 md:px-6 pt-6">
+            <div className="max-w-[1600px] mx-auto px-4 md:px-6 pt-6 flex flex-col gap-6">
+                
+                {/* Top Leaderboard Banner */}
+                <div className="w-full flex justify-center">
+                    <AdUnit type="leaderboard" className="!justify-center" />
+                </div>
 
                 {/* Guest Call to Action Banner */}
                 {!session && (
@@ -158,7 +163,7 @@ export default async function WatchPrettyPage({
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div className="flex flex-col gap-2">
                                 <div className="mb-2">
-                                    <AdUnit type="mobile" className="!justify-start" />
+                                    <AdUnit type="leaderboard" className="!justify-start" />
                                 </div>
                                 <div className="flex flex-col gap-0.5">
                                     <h1 className="text-xl md:text-2xl font-black text-white leading-tight tracking-tighter">{watchData.title}</h1>
