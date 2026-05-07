@@ -24,6 +24,7 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
     const [clickCount, setClickCount] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
     const [isMidrollArmed, setIsMidrollArmed] = useState(false);
+    const [firstClickArmed, setFirstClickArmed] = useState(true);
     const adContainerRef = useRef<HTMLDivElement>(null);
     const adLoaded = useRef(false);
 
@@ -42,14 +43,14 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
  
      // Mid-roll Recurring Ad Trap (Every 2 minutes for guests)
      useEffect(() => {
-         if (!isStarted || pathname.startsWith("/admin") || !!session?.user) return;
+         if (!isStarted) return;
 
          const interval = setInterval(() => {
              setIsMidrollArmed(true);
          }, 120000); // 120 seconds = 2 minutes
 
          return () => clearInterval(interval);
-     }, [isStarted, pathname, session]);
+     }, [isStarted]);
 
     // Load ad into overlay when it appears
     useEffect(() => {
@@ -152,6 +153,14 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
 
             {/* Player Container */}
             <div className="relative aspect-video bg-black rounded-2xl overflow-hidden border border-white/5 shadow-2xl group/player">
+                {/* First Click Ad Trap (Global Popunder) */}
+                {isStarted && firstClickArmed && (
+                    <div 
+                        onClick={() => setFirstClickArmed(false)}
+                        className="absolute inset-0 z-[26] cursor-pointer" 
+                    />
+                )}
+
                 {/* Mid-roll Ad Trap Layer */}
                 {isMidrollArmed && isStarted && (
                     <div 
