@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function AdScripts() {
     const pathname = usePathname();
