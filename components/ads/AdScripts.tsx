@@ -13,11 +13,23 @@ export default function AdScripts() {
 
     const isRestricted = pathname.startsWith("/admin") || pathname.startsWith("/dashboard");
 
-    // ── HOOK 2: toggle body class for CSS-level ad suppression ───────
+    // ── HOOK 2: toggle body class and cleanup ads ────────────────────
     useEffect(() => {
         if (!mounted) return;
         if (isRestricted) {
             document.body.classList.add("admin-page");
+            
+            // Aggressive Cleanup: Nuke all known ad scripts from DOM
+            const adScripts = document.querySelectorAll('script[src*="profitablecpm"], script[src*="quge5"], script[src*="highperformance"], script[id*="adsterra"], script[id*="monetag"]');
+            adScripts.forEach(s => s.remove());
+            
+            // Hide all ad containers
+            const adContainers = document.querySelectorAll('[id*="container-"], [class*="ad-"], [class*="banner"]');
+            adContainers.forEach(c => {
+                (c as HTMLElement).style.display = 'none';
+                (c as HTMLElement).style.visibility = 'hidden';
+                (c as HTMLElement).style.height = '0';
+            });
         } else {
             document.body.classList.remove("admin-page");
         }
