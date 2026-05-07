@@ -239,7 +239,7 @@ export default function AdminDashboard({ data }: { data: any }) {
     }
 
     return (
-        <div className="flex flex-col gap-6 p-4 md:p-8 min-h-screen">
+        <div className="flex flex-col gap-6 p-4 md:p-8 pt-36 md:pt-40 min-h-screen">
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
