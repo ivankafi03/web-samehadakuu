@@ -14,6 +14,8 @@ import AdScripts from "@/components/ads/AdScripts";
 import AdblockDetector from "@/components/ads/AdblockDetector";
 import AdUnit from "@/components/ads/AdUnit";
 
+import Footer from "@/components/Footer";
+
 // Inter — font utama untuk UI, body, label, form
 const inter = Inter({
   variable: "--font-inter",
@@ -116,9 +118,10 @@ export default async function RootLayout({
         <div className="fixed inset-0 bg-dot-grid opacity-20 pointer-events-none z-[-1]" />
         <Providers>
           <Navbar />
-          <main className="flex-grow">
+          <main className="flex-grow min-h-screen">
             {children}
           </main>
+          <Footer />
           <ChatWidget />
           <AdScripts />
           <AdblockDetector />
