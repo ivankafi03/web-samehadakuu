@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import { useSession, signOut } from "next-auth/react";
 import { LogOut, User, LayoutDashboard, Settings } from "lucide-react";
 import MaintenanceBanner from "./MaintenanceBanner";
+import Logo from "./Logo";
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -44,11 +45,11 @@ export default function Navbar() {
     }, [session, isLoggingOut]);
 
     const navLinks = [
-        { name: "Beranda", href: "/" },
+        { name: "Home", href: "/" },
         { name: "Anime", href: "/anime" },
         { name: "Ongoing", href: "/anime/ongoing" },
-        { name: "Film", href: "/anime/movies" },
-        { name: "Populer", href: "/anime/popular" },
+        { name: "Movies", href: "/anime/movies" },
+        { name: "Popular", href: "/anime/popular" },
     ];
 
     const is_admin = (session?.user as any)?.role === "ADMIN";
@@ -89,7 +90,7 @@ export default function Navbar() {
                         <Search className="w-4 h-4 text-muted-foreground" />
                         <input
                             type="text"
-                            placeholder="Cari anime..."
+                            placeholder="Search anime..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onKeyDown={(e) => {
@@ -104,7 +105,7 @@ export default function Navbar() {
                     <Link
                         href="/watchlist"
                         className="p-2 hover:bg-white/5 rounded-full transition-colors relative group"
-                        title="Daftar Nonton Saya"
+                        title="My Watchlist"
                     >
                         <Bookmark className="w-5 h-5 text-white" />
                         <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full scale-0 group-hover:scale-100 transition-transform" />
@@ -171,7 +172,7 @@ export default function Navbar() {
                             <Search className="w-4 h-4 text-muted-foreground" />
                             <input
                                 type="text"
-                                placeholder="Cari anime..."
+                                placeholder="Search anime..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={(e) => {
