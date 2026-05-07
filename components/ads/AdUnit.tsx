@@ -35,13 +35,20 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
         
         const updateAd = () => {
             if (!containerRef.current || loaded.current) return;
-            loaded.current = true;
-
+            
             const isMobile = window.innerWidth < 768;
             const finalKey = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.key : config.key;
             const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
             const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
 
+            if (isMobile) {
+                // FORCE IFRAME ON MOBILE - NO SCRIPT RELIANCE
+                containerRef.current.innerHTML = `<iframe src="https://www.highperformanceformat.com/${finalKey}/watch.html" width="${finalWidth}" height="${finalHeight}" frameborder="0" scrolling="no" style="display:block;margin:0 auto;"></iframe>`;
+                loaded.current = true;
+                return;
+            }
+
+            loaded.current = true;
             (window as any).atOptions = {
                 key: finalKey,
                 format: "iframe",
@@ -53,15 +60,6 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
             const script = document.createElement("script");
             script.src = `https://www.highperformanceformat.com/${finalKey}/invoke.js`;
             script.async = true;
-            
-            // Error handling for script
-            script.onerror = () => {
-                console.warn("Ad script failed to load, trying iframe fallback...");
-                if (containerRef.current) {
-                    containerRef.current.innerHTML = `<iframe src="https://www.highperformanceformat.com/${finalKey}/watch.html" width="${finalWidth}" height="${finalHeight}" frameborder="0" scrolling="no"></iframe>`;
-                }
-            };
-
             containerRef.current.appendChild(script);
         };
 

@@ -74,10 +74,21 @@ export default async function WatchPrettyPage({
 
     // Fetch related anime based on the first genre
     let relatedAnime: any[] = [];
-    if (seriesDetail && seriesDetail.genres.length > 0) {
-        relatedAnime = await searchAnime(seriesDetail.genres[0]);
+    try {
+        if (seriesDetail && seriesDetail.genres && seriesDetail.genres.length > 0) {
+            relatedAnime = await searchAnime(seriesDetail.genres[0]);
+        }
+        
+        // Fallback: If no related by genre, get latest/popular anime
+        if (relatedAnime.length < 3) {
+            const latest = await getLatestAnime();
+            relatedAnime = latest.slice(0, 6);
+        }
+
         // Remove current anime from related
         relatedAnime = relatedAnime.filter(a => !a.link.includes(path)).slice(0, 6);
+    } catch (e) {
+        console.error("Failed to fetch related anime", e);
     }
 
     if (!watchData || !watchData.servers || watchData.servers.length === 0) {
