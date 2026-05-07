@@ -6,6 +6,8 @@ import { VideoServer } from "@/lib/anime";
 import { useSession } from "next-auth/react";
 import AdUnit from "@/components/ads/AdUnit";
 
+const DIRECT_LINK = "https://www.profitablecpmratenetwork.com/xzgfq5xkc8?key=55406436bb6e7d868ad1a2c1d9a3f4fc";
+
 interface VideoPlayerProps {
     servers: VideoServer[];
     onPlay?: () => void;
@@ -59,6 +61,8 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
             if (onPlay) onPlay();
             return;
         }
+        // Klik 3: buka Direct Link di tab baru
+        try { window.open(DIRECT_LINK, "_blank"); } catch (_) {}
         setCountdown(5);
         setShowAdOverlay(true);
     };
