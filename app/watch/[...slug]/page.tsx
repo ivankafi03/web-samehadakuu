@@ -156,35 +156,64 @@ export default async function WatchPrettyPage({
                     }
                 >
                     {/* Anime Info & Actions */}
-                    <div className="flex flex-col gap-4 bg-[#0F0F11] border border-white/5 rounded-2xl p-5 md:p-6 shadow-xl">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                            <div className="flex flex-col gap-2">
-                                <div className="mb-2">
-                                    <AdUnit type="leaderboard" className="!justify-start" />
+                    <div className="bg-[#0F0F11] border border-white/5 rounded-2xl p-5 md:p-6 shadow-xl overflow-hidden relative">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[50px] -translate-y-1/2 translate-x-1/2 rounded-full" />
+                        
+                        <div className="flex flex-col gap-5 relative z-10">
+                            {/* Header Section */}
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/5 pb-5">
+                                <div className="flex flex-col gap-1.5">
+                                    <h1 className="text-xl md:text-2xl font-black text-white leading-tight tracking-tight">{watchData.title}</h1>
+                                    <div className="flex items-center gap-3">
+                                        <p className="text-primary font-bold text-[10px] uppercase tracking-[0.2em]">Streaming Ultra HD • Global Node</p>
+                                        {!session && (
+                                            <Link href="/auth/login" className="flex items-center gap-1.5 px-2 py-0.5 bg-primary/10 border border-primary/20 rounded-md group hover:bg-primary/20 transition-all">
+                                                <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
+                                                <span className="text-[8px] font-black text-primary uppercase tracking-wider">Ad-Lite Available</span>
+                                            </Link>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="flex flex-col gap-0.5">
-                                    <h1 className="text-xl md:text-2xl font-black text-white leading-tight tracking-tighter">{watchData.title}</h1>
-                                    <p className="text-primary font-bold text-[10px] uppercase tracking-[0.2em]">Streaming Ultra HD • Global Node</p>
+                                <WatchActions
+                                    anime={{
+                                        id: path,
+                                        title: watchData.title,
+                                        image: watchData.poster,
+                                        rating: parseFloat(watchData.rating) > 0 ? parseFloat(watchData.rating) : 0,
+                                        episodes: parseInt(watchData.episode) || 0,
+                                        type: watchData.type,
+                                        href: url
+                                    }}
+                                />
+                            </div>
+
+                            {/* Additional Info Section */}
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                                <div className="flex items-center gap-4">
+                                    <div className="flex flex-col gap-0.5">
+                                        <span className="text-zinc-500 text-[9px] uppercase font-bold tracking-widest">Rewards Status</span>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                            <span className="text-white text-xs font-black uppercase tracking-tighter">Active Tracking</span>
+                                        </div>
+                                    </div>
+                                    <div className="h-8 w-px bg-white/5" />
+                                    <div className="flex flex-col gap-0.5">
+                                        <span className="text-zinc-500 text-[9px] uppercase font-bold tracking-widest">Member Support</span>
+                                        <p className="text-white/60 text-[10px] font-medium italic max-w-xs leading-tight">
+                                            Switch servers if loading is slow. Rewards are counted automatically.
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex items-center gap-2">
+                                    <div className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-zinc-400 text-[10px] font-bold uppercase tracking-widest">
+                                        Server: {watchData.servers[0]?.name || "Auto"}
+                                    </div>
                                 </div>
                             </div>
-                            {!session && (
-                                <Link href="/auth/login" className="hidden lg:flex items-center gap-2 px-3 py-2 bg-primary/10 border border-primary/20 rounded-xl group hover:bg-primary/20 transition-all">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                    <span className="text-[10px] font-black text-primary uppercase tracking-widest">Tired of ads? Login for Ad-Lite</span>
-                                </Link>
-                            )}
-                            <WatchActions
-                                anime={{
-                                    id: path,
-                                    title: watchData.title,
-                                    image: watchData.poster,
-                                    rating: parseFloat(watchData.rating) > 0 ? parseFloat(watchData.rating) : 0,
-                                    episodes: parseInt(watchData.episode) || 0,
-                                    type: watchData.type,
-                                    href: url
-                                }}
-                            />
                         </div>
+                    </div>
 
                         <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5">
                             <div className="bg-primary/10 p-2 rounded-lg">
