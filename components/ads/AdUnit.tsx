@@ -41,36 +41,37 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
             const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
             const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
 
-            const uniqueSuffix = Math.random().toString(36).substring(2, 9);
-            const containerId = `at-container-${finalKey}-${uniqueSuffix}`;
-            containerRef.current.id = containerId;
+            // ISOLATED IFRAME METHOD - PREVENTS GLOBAL VARIABLE CONFLICTS
+            const iframe = document.createElement('iframe');
+            iframe.width = finalWidth.toString();
+            iframe.height = finalHeight.toString();
+            iframe.frameBorder = "0";
+            iframe.scrolling = "no";
+            iframe.style.display = "block";
+            iframe.style.margin = "0 auto";
+            iframe.style.maxWidth = "100%";
 
-            // Clear any existing content
-            containerRef.current.innerHTML = '';
-
-            // Set global options for the script
-            (window as any).atOptions = {
-                key: finalKey,
-                format: "iframe",
-                height: finalHeight,
-                width: finalWidth,
-                params: {},
-            };
-
-            const script = document.createElement("script");
-            script.src = `//www.highperformanceformat.com/${finalKey}/invoke.js`;
-            script.async = true;
+            const adScript = `
+                <html>
+                    <body style="margin:0;padding:0;display:flex;justify-content:center;align-items:center;">
+                        <script type="text/javascript">
+                            atOptions = {
+                                'key' : '${finalKey}',
+                                'format' : 'iframe',
+                                'height' : ${finalHeight},
+                                'width' : ${finalWidth},
+                                'params' : {}
+                            };
+                        <\/script>
+                        <script type="text/javascript" src="//www.highperformanceformat.com/${finalKey}/invoke.js"><\/script>
+                    </body>
+                </html>
+            `;
             
-            // Add error handling
-            script.onerror = () => {
-                console.error(`Failed to load ad script for ${finalKey}`);
-                // Fallback to iframe if script fails
-                if (containerRef.current) {
-                    containerRef.current.innerHTML = `<iframe src="//www.highperformanceformat.com/${finalKey}/watch.html" width="${finalWidth}" height="${finalHeight}" frameborder="0" scrolling="no" style="display:block;margin:0 auto;max-width:100%;"></iframe>`;
-                }
-            };
-
-            containerRef.current.appendChild(script);
+            iframe.srcdoc = adScript;
+            
+            containerRef.current.innerHTML = '';
+            containerRef.current.appendChild(iframe);
             loaded.current = true;
         };
 
