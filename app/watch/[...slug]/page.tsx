@@ -12,6 +12,7 @@ import HistoryLogger from "@/components/HistoryLogger";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import WatchPageClient from "@/components/WatchPageClient";
+import AdUnit from "@/components/ads/AdUnit";
 
 export async function generateMetadata({
     params
@@ -155,9 +156,16 @@ export default async function WatchPrettyPage({
                     {/* Anime Info & Actions */}
                     <div className="flex flex-col gap-4 bg-[#0F0F11] border border-white/5 rounded-2xl p-5 md:p-6 shadow-xl">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                            <div className="flex flex-col gap-0.5">
-                                <h1 className="text-xl md:text-2xl font-black text-white leading-tight tracking-tighter">{watchData.title}</h1>
-                                <p className="text-primary font-bold text-[10px] uppercase tracking-[0.2em]">Streaming Ultra HD • Global Node</p>
+                            <div className="flex flex-col gap-2">
+                                {!session && (
+                                    <div className="mb-2">
+                                        <AdUnit type="mobile" className="!justify-start" />
+                                    </div>
+                                )}
+                                <div className="flex flex-col gap-0.5">
+                                    <h1 className="text-xl md:text-2xl font-black text-white leading-tight tracking-tighter">{watchData.title}</h1>
+                                    <p className="text-primary font-bold text-[10px] uppercase tracking-[0.2em]">Streaming Ultra HD • Global Node</p>
+                                </div>
                             </div>
                             <WatchActions
                                 anime={{
