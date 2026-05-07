@@ -64,7 +64,11 @@ export async function POST(req: Request) {
             maintenanceMode,
             maintenanceMessage,
             registrationBonus,
-            telegramLink
+            telegramLink,
+            xLink,
+            instagramLink,
+            tiktokLink,
+            supportEmail
         } = data;
 
         const updated = await prisma.systemSettings.update({
@@ -78,6 +82,10 @@ export async function POST(req: Request) {
                 maintenanceMessage: maintenanceMessage || "Situs sedang dalam pemeliharaan rutin untuk meningkatkan performa.",
                 ...(registrationBonus !== undefined && { registrationBonus: parseFloat(registrationBonus) || 0.1 }),
                 telegramLink: telegramLink || "https://t.me/samehadakuu_official",
+                xLink: xLink || "https://x.com/samehadakuu",
+                instagramLink: instagramLink || "https://instagram.com/samehadakuu",
+                tiktokLink: tiktokLink || "https://tiktok.com/@samehadakuu",
+                supportEmail: supportEmail || "support@samehadakuu.com",
             }
         });
 

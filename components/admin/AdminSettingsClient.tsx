@@ -12,7 +12,11 @@ import {
     ShieldCheck,
     Hammer,
     AlertCircle,
-    Send
+    Send,
+    Instagram,
+    Twitter,
+    Video,
+    Mail
 } from "lucide-react";
 import { useToast } from "../ToastContext";
 
@@ -24,7 +28,12 @@ export default function AdminSettingsClient({ initialSettings, initialBlockedIps
         minWithdrawal: 50.00,
         registrationBonus: 0.10,
         maintenanceMode: false,
-        maintenanceMessage: "System is undergoing maintenance."
+        maintenanceMessage: "System is undergoing maintenance.",
+        telegramLink: initialSettings?.telegramLink || "",
+        xLink: initialSettings?.xLink || "",
+        instagramLink: initialSettings?.instagramLink || "",
+        tiktokLink: initialSettings?.tiktokLink || "",
+        supportEmail: initialSettings?.supportEmail || ""
     });
     const [blockedIps, setBlockedIps] = useState(initialBlockedIps);
     const [saving, setSaving] = useState(false);
@@ -189,6 +198,71 @@ export default function AdminSettingsClient({ initialSettings, initialBlockedIps
                                     />
                                 </div>
                                 <p className="text-[10px] text-zinc-600 font-medium px-2 italic">* This link will appear in the footer and member dashboard.</p>
+                            </div>
+
+                            {/* Social Media Links */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/5">
+                                <div className="flex flex-col gap-3">
+                                    <span className="text-sm font-bold text-zinc-600 ">X (Twitter) Link</span>
+                                    <div className="relative group/input">
+                                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within/input:text-primary transition-colors">
+                                            <Twitter className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={settings.xLink || ""}
+                                            onChange={(e) => setSettings({ ...settings, xLink: e.target.value })}
+                                            placeholder="https://x.com/your_handle"
+                                            className="w-full bg-white/5 border border-white/5 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold text-white tracking-tight focus:outline-none focus:border-primary/40 transition-all"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <span className="text-sm font-bold text-zinc-600 ">Instagram Link</span>
+                                    <div className="relative group/input">
+                                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within/input:text-primary transition-colors">
+                                            <Instagram className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={settings.instagramLink || ""}
+                                            onChange={(e) => setSettings({ ...settings, instagramLink: e.target.value })}
+                                            placeholder="https://instagram.com/your_handle"
+                                            className="w-full bg-white/5 border border-white/5 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold text-white tracking-tight focus:outline-none focus:border-primary/40 transition-all"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <span className="text-sm font-bold text-zinc-600 ">TikTok Link</span>
+                                    <div className="relative group/input">
+                                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within/input:text-primary transition-colors">
+                                            <Video className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={settings.tiktokLink || ""}
+                                            onChange={(e) => setSettings({ ...settings, tiktokLink: e.target.value })}
+                                            placeholder="https://tiktok.com/@your_handle"
+                                            className="w-full bg-white/5 border border-white/5 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold text-white tracking-tight focus:outline-none focus:border-primary/40 transition-all"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <span className="text-sm font-bold text-zinc-600 ">Support Email</span>
+                                    <div className="relative group/input">
+                                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within/input:text-primary transition-colors">
+                                            <Mail className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={settings.supportEmail || ""}
+                                            onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
+                                            placeholder="support@yourdomain.com"
+                                            className="w-full bg-white/5 border border-white/5 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold text-white tracking-tight focus:outline-none focus:border-primary/40 transition-all"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                             </div>
                         </div>
 

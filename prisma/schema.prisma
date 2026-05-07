@@ -111,6 +111,10 @@ model SystemSettings {
   maintenanceMessage String @default("Situs sedang dalam pemeliharaan rutin untuk meningkatkan performa.")
   registrationBonus Float @default(0.10) // Reward for inviting a new member
   telegramLink   String @default("https://t.me/samehadakuu_official")
+  xLink          String @default("https://x.com/samehadakuu")
+  instagramLink  String @default("https://instagram.com/samehadakuu")
+  tiktokLink     String @default("https://tiktok.com/@samehadakuu")
+  supportEmail   String @default("support@samehadakuu.com")
   
   updatedAt      DateTime @updatedAt
 }

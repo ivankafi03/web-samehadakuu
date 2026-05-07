@@ -1,12 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
-import { Github, Twitter, Instagram, Mail } from "lucide-react";
+import { Twitter, Instagram, Mail, Send, Video } from "lucide-react";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const [settings, setSettings] = useState<any>(null);
+
+    useEffect(() => {
+        fetch("/api/admin/settings")
+            .then(res => res.json())
+            .then(data => setSettings(data))
+            .catch(() => {});
+    }, []);
 
     const sections = [
         {
@@ -33,7 +41,7 @@ export default function Footer() {
                 { name: "Privacy Policy", href: "/privacy" },
                 { name: "Terms of Service", href: "/terms" },
                 { name: "DMCA", href: "/terms" },
-                { name: "Contact", href: "mailto:support@samehadakuu.com" },
+                { name: "Contact", href: settings?.supportEmail ? `mailto:${settings.supportEmail}` : "mailto:support@samehadakuu.com" },
             ],
         },
     ];
@@ -53,18 +61,31 @@ export default function Footer() {
                             The best place to watch anime while earning money. Join our community and start your journey today!
                         </p>
                         <div className="flex gap-4">
-                            <a href="#" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5">
-                                <Twitter className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5">
-                                <Instagram className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5">
-                                <Github className="w-5 h-5" />
-                            </a>
-                            <a href="mailto:support@samehadakuu.com" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5">
-                                <Mail className="w-5 h-5" />
-                            </a>
+                            {settings?.xLink && (
+                                <a href={settings.xLink} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5" title="X (Twitter)">
+                                    <Twitter className="w-5 h-5" />
+                                </a>
+                            )}
+                            {settings?.instagramLink && (
+                                <a href={settings.instagramLink} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5" title="Instagram">
+                                    <Instagram className="w-5 h-5" />
+                                </a>
+                            )}
+                            {settings?.telegramLink && (
+                                <a href={settings.telegramLink} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5" title="Telegram">
+                                    <Send className="w-5 h-5" />
+                                </a>
+                            )}
+                            {settings?.tiktokLink && (
+                                <a href={settings.tiktokLink} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5" title="TikTok">
+                                    <Video className="w-5 h-5" />
+                                </a>
+                            )}
+                            {settings?.supportEmail && (
+                                <a href={`mailto:${settings.supportEmail}`} className="p-2 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-lg transition-all border border-white/5" title="Email Support">
+                                    <Mail className="w-5 h-5" />
+                                </a>
+                            )}
                         </div>
                     </div>
 
