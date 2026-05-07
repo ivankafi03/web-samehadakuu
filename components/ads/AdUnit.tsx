@@ -45,7 +45,7 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
     const config = AD_CONFIG[type];
 
     useEffect(() => {
-        if (isAdmin || isRestrictedPage || loaded.current || !containerRef.current) return;
+        if (isMemberOrAdmin || loaded.current || !containerRef.current) return;
         loaded.current = true;
 
         // Set atOptions
@@ -64,14 +64,12 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
         containerRef.current.appendChild(script);
     }, [config.key, config.height, config.width]);
 
-    return (
-        (isAdmin || isRestrictedPage) ? null : (
+    return isMemberOrAdmin ? null : (
         <div
             className={`overflow-hidden flex items-center justify-center ${className}`}
             style={{ minWidth: config.width, minHeight: config.height }}
         >
             <div ref={containerRef} />
         </div>
-        )
     );
 }
