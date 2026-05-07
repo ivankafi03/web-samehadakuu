@@ -41,7 +41,8 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
             const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
             const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
 
-            const containerId = `at-container-${finalKey}`;
+            const uniqueSuffix = Math.random().toString(36).substring(2, 9);
+            const containerId = `at-container-${finalKey}-${uniqueSuffix}`;
             containerRef.current.id = containerId;
 
             // Clear any existing content
