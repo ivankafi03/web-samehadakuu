@@ -40,9 +40,6 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
 
     // Sembunyikan HANYA di dashboard/admin
     const isRestrictedPage = pathname.startsWith("/admin") || pathname.startsWith("/dashboard");
-    
-    if (!mounted || status === "loading" || isRestrictedPage) return null;
-
     const containerRef = useRef<HTMLDivElement>(null);
     const loaded = useRef(false);
 
@@ -67,6 +64,8 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
         script.async = true;
         containerRef.current.appendChild(script);
     }, [config.key, config.height, config.width]);
+
+    if (!mounted || status === "loading" || isRestrictedPage) return null;
 
     return (
         <div
