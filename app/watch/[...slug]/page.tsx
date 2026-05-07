@@ -113,8 +113,8 @@ export default async function WatchPrettyPage({
                                 <Sparkles className="w-4 h-4 text-primary" />
                                 <span className="text-primary font-black tracking-widest text-[10px] uppercase">Exclusive Access</span>
                             </div>
-                            <h2 className="text-xl md:text-2xl font-black text-white leading-tight">Get Rewards Every Minute</h2>
-                            <p className="text-zinc-500 font-medium text-sm max-w-xl">Watch your favorite anime and earn rewards automatically while you watch.</p>
+                            <h2 className="text-xl md:text-2xl font-black text-white leading-tight">Get Rewards & Minimize Ads</h2>
+                            <p className="text-zinc-500 font-medium text-sm max-w-xl">Login to earn rewards automatically and enjoy a cleaner, ad-lite experience with fewer pop-ups.</p>
                         </div>
                         <div className="flex items-center gap-3 relative z-10 w-full md:w-auto">
                             <Link href="/auth/login" className="flex-1 md:flex-none px-6 py-3 bg-primary text-black rounded-xl font-black text-xs hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20 text-center uppercase tracking-wider">
@@ -167,6 +167,12 @@ export default async function WatchPrettyPage({
                                     <p className="text-primary font-bold text-[10px] uppercase tracking-[0.2em]">Streaming Ultra HD • Global Node</p>
                                 </div>
                             </div>
+                            {!session && (
+                                <Link href="/auth/login" className="hidden lg:flex items-center gap-2 px-3 py-2 bg-primary/10 border border-primary/20 rounded-xl group hover:bg-primary/20 transition-all">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                                    <span className="text-[10px] font-black text-primary uppercase tracking-widest">Tired of ads? Login for Ad-Lite</span>
+                                </Link>
+                            )}
                             <WatchActions
                                 anime={{
                                     id: path,
