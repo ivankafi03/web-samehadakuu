@@ -41,26 +41,9 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
             const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
             const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
 
-            if (isMobile) {
-                // FORCE IFRAME ON MOBILE - NO SCRIPT RELIANCE
-                containerRef.current.innerHTML = `<iframe src="https://www.highperformanceformat.com/${finalKey}/watch.html" width="${finalWidth}" height="${finalHeight}" frameborder="0" scrolling="no" style="display:block;margin:0 auto;"></iframe>`;
-                loaded.current = true;
-                return;
-            }
-
+            // USE IFRAME FOR ALL PLATFORMS - MUCH MORE RELIABLE
+            containerRef.current.innerHTML = `<iframe src="https://www.highperformanceformat.com/${finalKey}/watch.html" width="${finalWidth}" height="${finalHeight}" frameborder="0" scrolling="no" style="display:block;margin:0 auto;max-width:100%;"></iframe>`;
             loaded.current = true;
-            (window as any).atOptions = {
-                key: finalKey,
-                format: "iframe",
-                height: finalHeight,
-                width: finalWidth,
-                params: {},
-            };
-
-            const script = document.createElement("script");
-            script.src = `https://www.highperformanceformat.com/${finalKey}/invoke.js`;
-            script.async = true;
-            containerRef.current.appendChild(script);
         };
 
         // Run once on mount

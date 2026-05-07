@@ -119,7 +119,9 @@ export default function WatchPageClient({
                     </div>
                 )}
 
-                <CommentSection videoId={videoId} />
+                <div className="mt-12">
+                    <CommentSection videoId={videoId} />
+                </div>
             </div>
 
             {/* Sidebar Area (Desktop only or hidden when drawer is open) */}
