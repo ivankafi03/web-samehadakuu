@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
+import { useSession } from "next-auth/react";
 
 export default function AdScripts() {
     const pathname  = usePathname() || "";
+    const { data: session } = useSession();
     const [mounted, setMounted] = useState(false);
 
     // ── HOOK 1: set mounted ──────────────────────────────────────────
@@ -37,6 +39,11 @@ export default function AdScripts() {
 
     // ── Conditional render AFTER all hooks ───────────────────────────
     if (!mounted || isRestricted) return null;
+
+    // Jika member login, matikan iklan Popunder/Pop-up agar navigasi lancar
+    // Tapi iklan Banner (AdUnit/AdNative) tetap muncul di halaman depan
+    const isMember = !!session?.user;
+    if (isMember) return null;
 
     return (
         <>
