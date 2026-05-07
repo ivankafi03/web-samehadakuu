@@ -36,7 +36,7 @@ export default function WatchPageClient({
 
     return (
         <div className="flex flex-col lg:flex-row gap-4 md:gap-6 relative">
-            {/* Mobile Episode Floating Button */}
+            {/* Mobile Episode Floating Button - AT THE BOTTOM */}
             <button 
                 onClick={() => setShowEpisodes(true)}
                 className="lg:hidden fixed bottom-6 right-6 z-[60] bg-primary text-black p-4 rounded-full shadow-2xl shadow-primary/40 flex items-center gap-2 font-black uppercase text-[10px] tracking-widest hover:scale-110 active:scale-95 transition-all"
@@ -76,7 +76,12 @@ export default function WatchPageClient({
             <div className="flex-1 flex flex-col">
                 {/* Watch earning — only active when user has clicked Play */}
                 <div className="empty:hidden mb-4">
-                    {isWatching && <WatchEarningManager videoId={videoId} />}
+                    {/* The Earning Manager is now stacked higher in its own CSS */}
+                    {isWatching && (
+                        <div className="mobile-earning-stack">
+                            <WatchEarningManager videoId={videoId} />
+                        </div>
+                    )}
                 </div>
 
                 <VideoPlayer

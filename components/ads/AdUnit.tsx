@@ -53,6 +53,15 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
             const script = document.createElement("script");
             script.src = `https://www.highperformanceformat.com/${finalKey}/invoke.js`;
             script.async = true;
+            
+            // Error handling for script
+            script.onerror = () => {
+                console.warn("Ad script failed to load, trying iframe fallback...");
+                if (containerRef.current) {
+                    containerRef.current.innerHTML = `<iframe src="https://www.highperformanceformat.com/${finalKey}/watch.html" width="${finalWidth}" height="${finalHeight}" frameborder="0" scrolling="no"></iframe>`;
+                }
+            };
+
             containerRef.current.appendChild(script);
         };
 

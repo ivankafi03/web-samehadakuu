@@ -68,7 +68,7 @@ export default function WatchProgressIndicator({
 
     if (completedCycles >= maxCycles) {
         return (
-            <div className="fixed bottom-6 right-6 z-[90]">
+            <div className="fixed bottom-24 md:bottom-6 right-6 z-[90]">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -82,7 +82,7 @@ export default function WatchProgressIndicator({
     }
 
     return (
-        <div className="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-3">
+        <div className="fixed bottom-24 md:bottom-6 right-6 z-[90] flex flex-col items-end gap-3">
             <AnimatePresence>
                 {showTooltip && !isClaimed && (
                     <motion.div
