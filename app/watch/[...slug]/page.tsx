@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MessageSquare, List, ThumbsUp, Heart, Share2, Info, Sparkles, Play, Layers } from "lucide-react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getWatchPageData, getUrlFromSlug, getSlugFromUrl, getAnimeDetail, searchAnime } from "@/lib/anime";
+import { getWatchPageData, getUrlFromSlug, getSlugFromUrl, getAnimeDetail, searchAnime, getLatestAnime } from "@/lib/anime";
 import VideoPlayer from "@/components/VideoPlayer";
 import ReportButton from "@/components/ReportButton";
 import WatchActions from "@/components/WatchActions";

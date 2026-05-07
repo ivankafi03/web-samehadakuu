@@ -17,8 +17,13 @@ export default function WatchProgressIndicator({
     const [isPaused, setIsPaused] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
     const [completedCycles, setCompletedCycles] = useState(0);
+    const [mounted, setMounted] = useState(false);
     const { setRewardVisible } = useWidget();
     const maxCycles = 3;
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Report visibility to context
     useEffect(() => {
