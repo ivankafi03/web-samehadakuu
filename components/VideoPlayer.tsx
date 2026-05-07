@@ -65,7 +65,7 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
             return;
         }
 
-        if (clickCount < 3) {
+        if (clickCount < 1) {
             setIsProcessing(true);
             setClickCount(prev => prev + 1);
             try { window.open(DIRECT_LINK, "_blank"); } catch (_) {}

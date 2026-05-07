@@ -61,7 +61,7 @@ export default function AdScripts() {
                 src="https://pl29360872.profitablecpmratenetwork.com/a6/20/66/a620661409a43f241ad7455bce5763f5.js"
                 strategy="lazyOnload"
             />
-            {/* Monetag MultiTag */}
+            {/* Monetag MultiTag - Disabled for cleaner experience
             <Script
                 id="monetag-multitag"
                 src="https://quge5.com/88/tag.min.js"
@@ -69,6 +69,7 @@ export default function AdScripts() {
                 strategy="lazyOnload"
                 data-cfasync="false"
             />
+            */}
             {/* Histats Tracker */}
             <Script id="histats-tracker" strategy="lazyOnload">{`
                 var _Hasync = _Hasync || [];
