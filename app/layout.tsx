@@ -42,6 +42,28 @@ export const metadata: Metadata = {
   other: {
     monetag: "355a8ebbeed7ba984eb785bbb6977945",
   },
+  openGraph: {
+    title: "Samehadakuu - Nonton Anime Subtitle Indonesia Terlengkap",
+    description: "Streaming anime terbaru kualitas HD Sub Indo gratis hanya di Samehadakuu.",
+    url: "https://samehadakuu.com",
+    siteName: "Samehadakuu",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Samehadakuu - Anime Streaming",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Samehadakuu - Nonton Anime Subtitle Indonesia",
+    description: "Streaming anime terbaru kualitas HD Sub Indo gratis hanya di Samehadakuu.",
+    images: ["/og-image.png"],
+  },
 };
 
 export const viewport: Viewport = {
