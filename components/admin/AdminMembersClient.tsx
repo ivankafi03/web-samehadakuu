@@ -11,7 +11,8 @@ import {
     Loader2,
     Check,
     Trash2,
-    RefreshCw
+    RefreshCw,
+    Key
 } from "lucide-react";
 import { useToast } from "../ToastContext";
 import ConfirmModal from "./ConfirmModal";
@@ -32,6 +33,19 @@ export default function AdminMembersClient() {
         message: "",
         onConfirm: () => {},
         variant: "danger"
+    });
+    const [passwordModal, setPasswordModal] = useState<{
+        isOpen: boolean;
+        userId: string;
+        userName: string;
+        newPassword: string;
+        isSubmitting: boolean;
+    }>({
+        isOpen: false,
+        userId: "",
+        userName: "",
+        newPassword: "",
+        isSubmitting: false
     });
     const { showToast } = useToast();
 
@@ -88,6 +102,37 @@ export default function AdminMembersClient() {
                 }
             }
         });
+    };
+
+    const handlePasswordChange = async () => {
+        if (passwordModal.newPassword.length < 6) {
+            showToast("Password minimal 6 karakter", "error");
+            return;
+        }
+
+        setPasswordModal(prev => ({ ...prev, isSubmitting: true }));
+        try {
+            const res = await fetch("/api/admin/members/change-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userId: passwordModal.userId,
+                    newPassword: passwordModal.newPassword
+                })
+            });
+
+            if (res.ok) {
+                showToast(`Password ${passwordModal.userName} berhasil diubah`, "success");
+                setPasswordModal({ ...passwordModal, isOpen: false, newPassword: "", isSubmitting: false });
+            } else {
+                const data = await res.json();
+                showToast(data.error || "Gagal mengubah password", "error");
+                setPasswordModal(prev => ({ ...prev, isSubmitting: false }));
+            }
+        } catch (err) {
+            showToast("Network error", "error");
+            setPasswordModal(prev => ({ ...prev, isSubmitting: false }));
+        }
     };
 
     const filteredMembers = members.filter(m =>
@@ -219,6 +264,20 @@ export default function AdminMembersClient() {
                                                 </button>
 
                                                 <button 
+                                                    onClick={() => setPasswordModal({ 
+                                                        isOpen: true, 
+                                                        userId: member.id, 
+                                                        userName: member.name, 
+                                                        newPassword: "",
+                                                        isSubmitting: false
+                                                    })}
+                                                    className="p-2.5 bg-blue-500/10 border border-blue-500/10 rounded-xl hover:bg-blue-500/20 text-blue-400 transition-all"
+                                                    title="Change Password"
+                                                >
+                                                    <Key className="w-4 h-4" />
+                                                </button>
+
+                                                <button 
                                                     onClick={() => handleDelete(member.id, member.name)}
                                                     className="p-2.5 bg-red-500/10 border border-red-500/10 rounded-xl hover:bg-red-500/20 text-red-500 transition-all"
                                                     title="Delete Permanently"
@@ -243,6 +302,59 @@ export default function AdminMembersClient() {
                 message={confirmModal.message}
                 variant={confirmModal.variant}
             />
+
+            {/* Password Change Modal */}
+            {passwordModal.isOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="w-full max-w-md bg-[#0F0F11] border border-white/5 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
+                        <div className="absolute inset-0 bg-batik-modern opacity-[0.02] pointer-events-none" />
+                        
+                        <div className="flex flex-col gap-6 relative z-10">
+                            <div className="flex flex-col gap-2">
+                                <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/10 mb-2">
+                                    <Key className="w-6 h-6 text-blue-400" />
+                                </div>
+                                <h3 className="text-xl font-bold text-white tracking-tight">Ganti Password</h3>
+                                <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                                    Masukkan password baru untuk <span className="text-white font-bold">{passwordModal.userName}</span>.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Password Baru</label>
+                                <input
+                                    type="text"
+                                    autoFocus
+                                    placeholder="MINIMAL 6 KARAKTER..."
+                                    value={passwordModal.newPassword}
+                                    onChange={(e) => setPasswordModal({ ...passwordModal, newPassword: e.target.value })}
+                                    className="w-full bg-white/[0.02] border border-white/5 rounded-2xl px-6 py-4 text-sm font-semibold text-white placeholder:text-zinc-800 focus:outline-none focus:border-blue-500/50 transition-all"
+                                />
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                                <button
+                                    onClick={() => setPasswordModal({ ...passwordModal, isOpen: false })}
+                                    className="flex-1 px-6 py-4 rounded-2xl text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all"
+                                >
+                                    Batal
+                                </button>
+                                <button
+                                    onClick={handlePasswordChange}
+                                    disabled={passwordModal.isSubmitting}
+                                    className="flex-[2] bg-blue-500 hover:bg-blue-600 text-white px-6 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                >
+                                    {passwordModal.isSubmitting ? (
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                    ) : (
+                                        "Simpan Password"
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
