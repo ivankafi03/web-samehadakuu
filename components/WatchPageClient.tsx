@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import AdUnit from "./ads/AdUnit";
 import { List, X, ChevronRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import AnimeCard from "./AnimeCard";
 
 const CommentSection = dynamic(() => import("./CommentSection"), {
     loading: () => <div className="h-32 flex items-center justify-center bg-white/5 rounded-2xl animate-pulse mt-6">Memuat Komentar...</div>,
@@ -89,46 +90,30 @@ export default function WatchPageClient({
                     onPlay={() => setIsWatching(true)}
                 />
 
-                {/* Bottom Banner - Below Player */}
-                <div className="w-full flex justify-center mt-4">
-                    <div className="w-full max-w-full overflow-hidden flex justify-center">
-                        <AdUnit type="leaderboard" className="!justify-center" />
-                    </div>
-                </div>
-
                 {children}
 
-                {/* Related Anime Section */}
+                {/* Related Anime Section - Matching Homepage Style */}
                 {relatedAnime.length > 0 && (
-                    <div className="mt-8 flex flex-col gap-6">
-                        <div className="flex items-center justify-between">
-                            <h3 className="text-lg md:text-xl font-black text-white uppercase tracking-tighter flex items-center gap-2">
+                    <div className="mt-12 flex flex-col gap-6">
+                        <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                            <h3 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
                                 <Sparkles className="w-5 h-5 text-primary" />
                                 Rekomendasi Untukmu
                             </h3>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
                             {relatedAnime.map((anime, idx) => (
-                                <Link 
-                                    key={idx} 
-                                    href={anime.link.replace('https://samehadaku.li', '')}
-                                    className="group flex flex-col gap-3"
-                                >
-                                    <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/5 bg-white/5">
-                                        <img 
-                                            src={anime.image} 
-                                            alt={anime.title}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                        <div className="absolute bottom-3 left-3 right-3 translate-y-4 group-hover:translate-y-0 transition-transform">
-                                            <div className="w-full py-2 bg-primary text-black text-[9px] font-black uppercase text-center rounded-lg shadow-xl shadow-primary/20">
-                                                Nonton Sekarang
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h4 className="text-[11px] font-bold text-zinc-400 group-hover:text-white line-clamp-1 transition-colors">{anime.title}</h4>
-                                </Link>
+                                <AnimeCard 
+                                    key={idx}
+                                    id={idx}
+                                    title={anime.title}
+                                    image={anime.image}
+                                    rating={parseFloat(anime.rating) || 0}
+                                    episodes={parseInt(anime.eps) || 0}
+                                    episodeRaw={anime.eps}
+                                    type={anime.type || "Anime"}
+                                    href={anime.link}
+                                />
                             ))}
                         </div>
                     </div>

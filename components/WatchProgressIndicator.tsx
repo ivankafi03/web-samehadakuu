@@ -75,7 +75,7 @@ export default function WatchProgressIndicator({
         return (
             <div 
                 className="fixed right-6 z-[90]"
-                style={{ bottom: mounted && window.innerWidth < 1024 ? "100px" : "24px" }}
+                style={{ bottom: mounted && window.innerWidth < 1024 ? "96px" : "24px" }}
             >
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}

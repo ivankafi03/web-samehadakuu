@@ -200,15 +200,6 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
                 )}
             </div>
 
-            {/* Banner ads directly below player */}
-            <div className="w-full flex justify-center py-2 bg-white/5 rounded-xl border border-white/5">
-                <div className="hidden md:block">
-                    <AdUnit type="leaderboard" />
-                </div>
-                <div className="block md:hidden">
-                    <AdUnit type="mobile" />
-                </div>
-            </div>
             {/* Server Switcher */}
             <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between px-1">
@@ -228,6 +219,16 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
                             {server.name}
                         </button>
                     ))}
+                </div>
+            </div>
+
+            {/* Banner ads below server switcher */}
+            <div className="w-full flex justify-center py-2 bg-white/5 rounded-xl border border-white/5">
+                <div className="hidden md:block">
+                    <AdUnit type="leaderboard" />
+                </div>
+                <div className="block md:hidden">
+                    <AdUnit type="mobile" />
                 </div>
             </div>
 

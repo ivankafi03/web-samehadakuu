@@ -29,7 +29,12 @@ export default function ChatWidget() {
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
     const [hasNewMessage, setHasNewMessage] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const fetchMessages = async () => {
         try {
@@ -87,8 +92,15 @@ export default function ChatWidget() {
         if (!isOpen) setHasNewMessage(false);
     };
 
+    const bottomStyle = mounted && window.innerWidth < 1024 
+        ? (rewardVisible ? "168px" : "96px") 
+        : "24px";
+
     return (
-        <div className={`fixed right-6 z-[100] flex flex-col items-end gap-4 pointer-events-none transition-all duration-500 ease-in-out ${rewardVisible ? 'bottom-24' : 'bottom-6'}`}>
+        <div 
+            className="fixed right-6 z-[100] flex flex-col items-end gap-4 pointer-events-none transition-all duration-500 ease-in-out"
+            style={{ bottom: bottomStyle }}
+        >
             {/* Chat Window */}
             {isOpen && (
                 <div className="w-[280px] sm:w-[350px] h-[450px] bg-[#0F0F11]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300 pointer-events-auto">
