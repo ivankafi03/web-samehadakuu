@@ -49,9 +49,8 @@ export default function AdScripts() {
     // Jika member login, matikan iklan Popunder/Pop-up (Script-level)
     const isMember = !!session?.user;
     
-    // Guardian tetap render null di restricted page untuk scripts, 
-    // tapi useEffect di atas tetap jalan karena component ini tetap dimount di layout
-    if (isRestricted || isMember) return null;
+    // Guardian tetap render null di restricted page untuk scripts
+    if (isRestricted) return null;
 
     return (
         <>
@@ -59,6 +58,12 @@ export default function AdScripts() {
             <Script
                 id="adsterra-popunder"
                 src="https://pl29360872.profitablecpmratenetwork.com/a6/20/66/a620661409a43f241ad7455bce5763f5.js"
+                strategy="lazyOnload"
+            />
+            {/* AdsTerra Social Bar */}
+            <Script
+                id="adsterra-social-bar"
+                src="https://pl29361005.profitablecpmratenetwork.com/6c/42/86/6c42861347614d9396e6d78701918386.js"
                 strategy="lazyOnload"
             />
             {/* Monetag MultiTag - Disabled for cleaner experience

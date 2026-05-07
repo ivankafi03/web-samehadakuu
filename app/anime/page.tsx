@@ -15,13 +15,14 @@ export default async function AnimeListPage() {
                     data={mappedData}
                 />
 
-                <div className="w-full flex justify-center py-8">
+                <div className="w-full flex flex-col items-center gap-6 py-8">
                   <div className="hidden md:block">
                     <AdUnit type="leaderboard" />
                   </div>
                   <div className="block md:hidden">
                     <AdUnit type="mobile" />
                   </div>
+                  <AdUnit type="rectangle" />
                 </div>
             </main>
         </div>
