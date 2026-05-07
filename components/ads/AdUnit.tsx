@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 type AdType = "leaderboard" | "rectangle" | "mobile";
 
@@ -29,15 +30,20 @@ const AD_CONFIG: Record<AdType, { key: string; width: number; height: number }> 
 };
 
 export default function AdUnit({ type, className = "" }: AdUnitProps) {
+    const pathname = usePathname();
     const { data: session } = useSession();
     const isAdmin = (session?.user as any)?.role === "ADMIN";
+    
+    // Keamanan ekstra: Matikan jika di halaman admin/dashboard
+    const isRestrictedPage = pathname.startsWith("/admin") || pathname.startsWith("/dashboard") || pathname.startsWith("/auth");
+
     const containerRef = useRef<HTMLDivElement>(null);
     const loaded = useRef(false);
 
     const config = AD_CONFIG[type];
 
     useEffect(() => {
-        if (isAdmin || loaded.current || !containerRef.current) return;
+        if (isAdmin || isRestrictedPage || loaded.current || !containerRef.current) return;
         loaded.current = true;
 
         // Set atOptions
@@ -57,7 +63,7 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
     }, [config.key, config.height, config.width]);
 
     return (
-        isAdmin ? null : (
+        (isAdmin || isRestrictedPage) ? null : (
         <div
             className={`overflow-hidden flex items-center justify-center ${className}`}
             style={{ minWidth: config.width, minHeight: config.height }}
