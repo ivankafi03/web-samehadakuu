@@ -32,29 +32,32 @@ export default function AdUnit({ type, className = "" }: AdUnitProps) {
     // ── HOOK 2: inject ad script (runs only when shouldRender is true) ─
     useEffect(() => {
         if (!shouldRender || loaded.current || !containerRef.current) return;
-        loaded.current = true;
+        
+        const updateAd = () => {
+            if (!containerRef.current || loaded.current) return;
+            loaded.current = true;
 
-        const isMobile = window.innerWidth < 768;
-        const finalKey = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.key : config.key;
-        const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
-        const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
+            const isMobile = window.innerWidth < 768;
+            const finalKey = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.key : config.key;
+            const finalWidth = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.width : config.width;
+            const finalHeight = (type === "leaderboard" && isMobile) ? AD_CONFIG.mobile.height : config.height;
 
-        // Use a unique property if possible, or just hope the immediate execution works
-        // AdsTerra invoke.js usually reads atOptions right away.
-        (window as any).atOptions = {
-            key: finalKey,
-            format: "iframe",
-            height: finalHeight,
-            width: finalWidth,
-            params: {},
+            (window as any).atOptions = {
+                key: finalKey,
+                format: "iframe",
+                height: finalHeight,
+                width: finalWidth,
+                params: {},
+            };
+
+            const script = document.createElement("script");
+            script.src = `https://www.highperformanceformat.com/${finalKey}/invoke.js`;
+            script.async = true;
+            containerRef.current.appendChild(script);
         };
 
-        const script = document.createElement("script");
-        script.src = `https://www.highperformanceformat.com/${finalKey}/invoke.js`;
-        script.async = true;
-        
-        // Append to the specific container
-        containerRef.current.appendChild(script);
+        // Run once on mount
+        updateAd();
     }, [shouldRender, config.key, config.height, config.width, type, pathname]);
 
     // ── Conditional render AFTER all hooks ───────────────────────────

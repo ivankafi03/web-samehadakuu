@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { MessageSquare, List, ThumbsUp, Heart, Share2, Info, Sparkles, Play } from "lucide-react";
+import { MessageSquare, List, ThumbsUp, Heart, Share2, Info, Sparkles, Play, Layers } from "lucide-react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getWatchPageData, getUrlFromSlug, getSlugFromUrl, getAnimeDetail } from "@/lib/anime";
+import { getWatchPageData, getUrlFromSlug, getSlugFromUrl, getAnimeDetail, searchAnime } from "@/lib/anime";
 import VideoPlayer from "@/components/VideoPlayer";
 import ReportButton from "@/components/ReportButton";
 import WatchActions from "@/components/WatchActions";
@@ -72,6 +72,14 @@ export default async function WatchPrettyPage({
     const watchData = await getWatchPageData(url);
     const seriesDetail = await getAnimeDetail(url);
 
+    // Fetch related anime based on the first genre
+    let relatedAnime: any[] = [];
+    if (seriesDetail && seriesDetail.genres.length > 0) {
+        relatedAnime = await searchAnime(seriesDetail.genres[0]);
+        // Remove current anime from related
+        relatedAnime = relatedAnime.filter(a => !a.link.includes(path)).slice(0, 6);
+    }
+
     if (!watchData || !watchData.servers || watchData.servers.length === 0) {
         return (
             <div className="min-h-screen flex items-center justify-center p-6">
@@ -133,6 +141,8 @@ export default async function WatchPrettyPage({
                 <WatchPageClient
                     servers={watchData.servers}
                     videoId={path}
+                    episodes={seriesDetail?.episodes || []}
+                    relatedAnime={relatedAnime}
                     sidebar={
                         <div className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden flex flex-col p-6">
                             <h3 className="font-bold text-white flex items-center gap-2 mb-4">
