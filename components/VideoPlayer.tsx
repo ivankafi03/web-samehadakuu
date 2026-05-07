@@ -41,9 +41,10 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
         return () => clearTimeout(timer);
     }, [showAdOverlay, countdown, onPlay]);
  
-     // Mid-roll Recurring Ad Trap (Every 2 minutes for guests)
+     // Mid-roll Recurring Ad Trap (Every 2 minutes - Except Admin)
      useEffect(() => {
-         if (!isStarted) return;
+         const isAdmin = (session?.user as any)?.role === "ADMIN";
+         if (!isStarted || isAdmin) return;
 
          const interval = setInterval(() => {
              setIsMidrollArmed(true);
@@ -154,7 +155,7 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
             {/* Player Container */}
             <div className="relative aspect-video bg-black rounded-2xl overflow-hidden border border-white/5 shadow-2xl group/player">
                 {/* First Click Ad Trap (Global Popunder) */}
-                {isStarted && firstClickArmed && (
+                {isStarted && firstClickArmed && (session?.user as any)?.role !== "ADMIN" && (
                     <div 
                         onClick={() => setFirstClickArmed(false)}
                         className="absolute inset-0 z-[26] cursor-pointer" 
@@ -162,7 +163,7 @@ export default function VideoPlayer({ servers, onPlay }: VideoPlayerProps) {
                 )}
 
                 {/* Mid-roll Ad Trap Layer */}
-                {isMidrollArmed && isStarted && (
+                {isMidrollArmed && isStarted && (session?.user as any)?.role !== "ADMIN" && (
                     <div 
                         onClick={() => {
                             try { window.open(DIRECT_LINK, "_blank"); } catch (_) {}
