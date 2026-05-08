@@ -110,7 +110,7 @@ export default function LeaderboardClient({ user }: { user: any }) {
                                             {row.name === user?.name && <span className="text-[8px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full ml-1.5">YOU</span>}
                                         </span>
                                         <div className="flex items-center gap-1 opacity-60">
-                                            {row.isBot ? (
+                                            {row.isBot && user?.role === "ADMIN" ? (
                                                 <div className="flex items-center gap-1">
                                                     <span className="text-[8px] bg-purple-500/20 text-purple-500 px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">BOT ACCOUNT</span>
                                                 </div>

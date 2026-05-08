@@ -143,7 +143,7 @@ export default function CommentSection({ videoId }: CommentSectionProps) {
                                                     <ShieldCheck className="w-2.5 h-2.5" /> Admin
                                                 </span>
                                             )}
-                                            {comment.user.isBot && (
+                                            {comment.user.isBot && (session?.user as any)?.role === "ADMIN" && (
                                                 <span className="px-1.5 py-0.5 bg-purple-500/20 text-purple-500 text-[8px] font-black rounded uppercase">
                                                     BOT
                                                 </span>

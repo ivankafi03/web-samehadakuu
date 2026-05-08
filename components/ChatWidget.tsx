@@ -142,10 +142,10 @@ export default function ChatWidget() {
                             messages.map((msg) => (
                                 <div key={msg.id} className={`flex flex-col gap-1 ${msg.user.name === session?.user?.name ? "items-end" : "items-start"}`}>
                                     <div className="flex items-center gap-2 mb-0.5">
-                                        <span className={`text-[9px] font-black uppercase tracking-tighter ${msg.isAdmin ? "text-primary flex items-center gap-1" : msg.user.isBot ? "text-purple-500" : "text-zinc-500"}`}>
+                                        <span className={`text-[9px] font-black uppercase tracking-tighter ${msg.isAdmin ? "text-primary flex items-center gap-1" : (msg.user.isBot && (session?.user as any)?.role === "ADMIN") ? "text-purple-500" : "text-zinc-500"}`}>
                                             {msg.isAdmin && <ShieldCheck className="w-2.5 h-2.5" />}
                                             {msg.user.name}
-                                            {msg.user.isBot && <span className="ml-1 px-1 bg-purple-500/20 text-purple-500 text-[7px] rounded">BOT</span>}
+                                            {msg.user.isBot && (session?.user as any)?.role === "ADMIN" && <span className="ml-1 px-1 bg-purple-500/20 text-purple-500 text-[7px] rounded">BOT</span>}
                                         </span>
                                         <span className="text-[8px] text-zinc-700 font-bold">{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                     </div>
