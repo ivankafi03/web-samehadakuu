@@ -15,6 +15,7 @@ import AdblockDetector from "@/components/ads/AdblockDetector";
 import AdUnit from "@/components/ads/AdUnit";
 
 import Footer from "@/components/Footer";
+import NotificationToast from "@/components/NotificationToast";
 
 // Inter — font utama untuk UI, body, label, form
 const inter = Inter({
@@ -125,6 +126,7 @@ export default async function RootLayout({
           <ChatWidget />
           <AdScripts />
           <AdblockDetector />
+          <NotificationToast />
         </Providers>
       </body>
     </html>
