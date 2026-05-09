@@ -23,7 +23,7 @@ export default function AdminBroadcastsClient() {
     const [newBroadcast, setNewBroadcast] = useState({
         title: "",
         message: "",
-        amount: 0.10
+        amount: 1.00
     });
     const { showToast } = useToast();
 
@@ -54,7 +54,7 @@ export default function AdminBroadcastsClient() {
 
             if (res.ok) {
                 showToast("Broadcast reward sent to all members!", "success");
-                setNewBroadcast({ title: "", message: "", amount: 0.10 });
+                setNewBroadcast({ title: "", message: "", amount: 1.00 });
                 fetchBroadcasts();
             } else {
                 showToast("Failed to create broadcast", "error");
