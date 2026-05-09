@@ -143,7 +143,7 @@ export default function RewardNotification() {
                         {claiming ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
-                            <>Klaim Bonus ${reward.amount.toFixed(2)}</>
+                            <>Klaim Bonus</>
                         )}
                     </button>
                     <button 
