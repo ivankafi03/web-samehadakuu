@@ -17,7 +17,7 @@ export default function PayoutsClient({ user, settings }: { user: any, settings:
 
     useEffect(() => { fetchWithdrawals(); }, []);
 
-    const totalBalance = (user?.balanceWatch || 0) + (user?.balanceReferral || 0);
+    const totalBalance = (user?.balanceWatch || 0) + (user?.balanceReferral || 0) + (user?.balanceBonus || 0);
 
     return (
         <div className="flex flex-col gap-5 animate-in fade-in slide-in-from-bottom-4 duration-500">

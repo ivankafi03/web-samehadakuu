@@ -9,7 +9,8 @@ import {
     Users, 
     MessageSquare, 
     Settings,
-    Ghost
+    Ghost,
+    Gift
 } from "lucide-react";
 
 export default function AdminNav() {
@@ -21,6 +22,7 @@ export default function AdminNav() {
         { id: "members", label: "Members", icon: Users, href: "/admin/members" },
         { id: "ghosts", label: "Ghosts", icon: Ghost, href: "/admin/ghosts" },
         { id: "chat", label: "Chat", icon: MessageSquare, href: "/admin/chat" },
+        { id: "broadcasts", label: "Broadcasts", icon: Gift, href: "/admin/broadcasts" },
         { id: "settings", label: "Settings", icon: AdminSettingsIcon, href: "/admin/settings" }
     ];
 

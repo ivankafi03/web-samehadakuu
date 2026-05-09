@@ -11,6 +11,7 @@ export default async function PayoutsPage() {
         select: {
             balanceWatch: true,
             balanceReferral: true,
+            balanceBonus: true,
             name: true
         }
     });

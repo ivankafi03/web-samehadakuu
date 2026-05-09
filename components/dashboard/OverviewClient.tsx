@@ -37,7 +37,7 @@ export default function OverviewClient({ user }: { user: any }) {
         setOrigin(window.location.origin);
     }, []);
 
-    const totalBalance = (user?.balanceWatch || 0) + (user?.balanceReferral || 0);
+    const totalBalance = (user?.balanceWatch || 0) + (user?.balanceReferral || 0) + (user?.balanceBonus || 0);
     const userRankIdx = rankingData.findIndex(r => r.name === user?.name);
 
     return (
@@ -70,6 +70,10 @@ export default function OverviewClient({ user }: { user: any }) {
                                 <div className="flex flex-col gap-0.5">
                                     <span className="text-[10px] font-medium text-zinc-500">Referral</span>
                                     <span className="text-sm font-bold text-white tracking-tight">${(user?.balanceReferral || 0).toFixed(3)}</span>
+                                </div>
+                                <div className="flex flex-col gap-0.5">
+                                    <span className="text-[10px] font-medium text-zinc-500">Bonus</span>
+                                    <span className="text-sm font-bold text-primary tracking-tight">${(user?.balanceBonus || 0).toFixed(3)}</span>
                                 </div>
                             </div>
                         </div>

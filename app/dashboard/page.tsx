@@ -14,6 +14,8 @@ export default async function OverviewPage() {
             email: true,
             balanceWatch: true,
             balanceReferral: true,
+            balanceBonus: true,
+            registrationBonusClaimed: true,
         }
     });
 

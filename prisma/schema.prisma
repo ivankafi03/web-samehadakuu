@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -30,6 +30,7 @@ model User {
   role          String    @default("MEMBER") // ADMIN, MEMBER
   balanceWatch     Float    @default(0)
   balanceReferral  Float    @default(0)
+  balanceBonus     Float    @default(0)
 
   // Anti-bot & Security
   registrationIp   String?  // IP used during registration (for account limit per IP)
@@ -39,12 +40,15 @@ model User {
   isSuspended      Boolean  @default(false) // Account suspended by admin — blocks login
   isBot            Boolean  @default(false) // Fake/seeded member for leaderboard display only
   
+  registrationBonusClaimed Boolean @default(false)
+
   // Relations
   referralViews ReferralView[]
   selfViews     SelfView[]
   payouts       PayoutRequest[]
   collectedLinks CollectedLink[]
   watchHistory  WatchHistory[]
+  claims        UserClaim[]
   
   // Registration Referral Tracking
   referredById  String?
@@ -110,7 +114,7 @@ model SystemSettings {
   minWithdrawal  Float    @default(50.00)
   maintenanceMode Boolean @default(false)
   maintenanceMessage String @default("Situs sedang dalam pemeliharaan rutin untuk meningkatkan performa.")
-  registrationBonus Float @default(0.10) // Reward for inviting a new member
+  registrationBonus Float @default(1.00) // Reward for joining (can be claimed)
   telegramLink   String @default("https://t.me/samehadakuu_official")
   xLink          String @default("https://x.com/samehadakuu")
   instagramLink  String @default("https://instagram.com/samehadakuu")
@@ -211,4 +215,24 @@ model BlockedIp {
   reason    String?
   blockedBy String?  // admin userId who blocked it
   createdAt DateTime @default(now())
+}
+
+model BroadcastReward {
+  id        String   @id @default(cuid())
+  title     String
+  message   String
+  amount    Float
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  claims    UserClaim[]
+}
+
+model UserClaim {
+  id                String   @id @default(cuid())
+  userId            String
+  broadcastRewardId String
+  claimedAt         DateTime @default(now())
+  user              User            @relation(fields: [userId], references: [id])
+  broadcastReward   BroadcastReward @relation(fields: [broadcastRewardId], references: [id])
+  @@unique([userId, broadcastRewardId])
 }
