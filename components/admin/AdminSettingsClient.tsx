@@ -27,6 +27,7 @@ export default function AdminSettingsClient({ initialSettings, initialBlockedIps
         watchRate: 0.005,
         minWithdrawal: 50.00,
         registrationBonus: 0.10,
+        welcomeBonus: 1.00,
         maintenanceMode: false,
         maintenanceMessage: "System is undergoing maintenance.",
         telegramLink: initialSettings?.telegramLink || "",
@@ -46,6 +47,7 @@ export default function AdminSettingsClient({ initialSettings, initialBlockedIps
                 ...settings,
                 // Pastikan registrationBonus selalu terkirim meski tidak ada di form
                 registrationBonus: settings.registrationBonus ?? 0.10,
+                welcomeBonus: settings.welcomeBonus ?? 1.00,
             };
             const res = await fetch("/api/admin/settings", {
                 method: "POST",
@@ -177,6 +179,27 @@ export default function AdminSettingsClient({ initialSettings, initialBlockedIps
                                         type="number" step="1"
                                         value={settings.minWithdrawal}
                                         onChange={(e) => setSettings({ ...settings, minWithdrawal: parseFloat(e.target.value) })}
+                                        className="w-full bg-white/5 border border-white/5 rounded-2xl px-5 py-4 text-sm font-bold text-white tracking-tight focus:outline-none focus:border-primary/40"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-8">
+                                <div className="flex flex-col gap-3">
+                                    <span className="text-sm font-bold text-zinc-600 ">Referral Bonus (USD)</span>
+                                    <input
+                                        type="number" step="0.01"
+                                        value={settings.registrationBonus}
+                                        onChange={(e) => setSettings({ ...settings, registrationBonus: parseFloat(e.target.value) })}
+                                        className="w-full bg-white/5 border border-white/5 rounded-2xl px-5 py-4 text-sm font-bold text-white tracking-tight focus:outline-none focus:border-primary/40"
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <span className="text-sm font-bold text-zinc-600 ">Welcome Bonus (USD)</span>
+                                    <input
+                                        type="number" step="0.01"
+                                        value={settings.welcomeBonus}
+                                        onChange={(e) => setSettings({ ...settings, welcomeBonus: parseFloat(e.target.value) })}
                                         className="w-full bg-white/5 border border-white/5 rounded-2xl px-5 py-4 text-sm font-bold text-white tracking-tight focus:outline-none focus:border-primary/40"
                                     />
                                 </div>

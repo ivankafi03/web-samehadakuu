@@ -33,8 +33,8 @@ export async function POST(req: Request) {
                 }
 
                 const settings = await tx.systemSettings.findFirst();
-                amount = settings?.registrationBonus || 1.00;
-                type = "REGISTRATION_BONUS";
+                amount = settings?.welcomeBonus || 1.00;
+                type = "WELCOME_BONUS";
 
                 await tx.user.update({
                     where: { id: userId },

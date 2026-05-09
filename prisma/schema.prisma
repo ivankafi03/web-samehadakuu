@@ -114,7 +114,8 @@ model SystemSettings {
   minWithdrawal  Float    @default(50.00)
   maintenanceMode Boolean @default(false)
   maintenanceMessage String @default("Situs sedang dalam pemeliharaan rutin untuk meningkatkan performa.")
-  registrationBonus Float @default(1.00) // Reward for joining (can be claimed)
+  registrationBonus Float @default(0.10) // Reward for referrer when new member joins
+  welcomeBonus      Float @default(1.00) // Reward for new member to claim
   telegramLink   String @default("https://t.me/samehadakuu_official")
   xLink          String @default("https://x.com/samehadakuu")
   instagramLink  String @default("https://instagram.com/samehadakuu")

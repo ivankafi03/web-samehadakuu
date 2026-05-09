@@ -4,9 +4,12 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.systemSettings.update({
     where: { id: 'global' },
-    data: { registrationBonus: 1.00 }
+    data: { 
+      registrationBonus: 0.10,
+      welcomeBonus: 1.00 
+    }
   });
-  console.log('Successfully updated registration bonus to $1.00');
+  console.log('Successfully separated bonuses: Referral $0.10, Welcome $1.00');
 }
 
 main()
