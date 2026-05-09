@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Gift, X, Sparkles, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
+import { Gift, X, Sparkles, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "./ToastContext";
 
@@ -34,11 +34,9 @@ export default function RewardNotification() {
 
     useEffect(() => {
         if (status === "authenticated") {
-            // Cek reward setelah 3 detik login
             const timer = setTimeout(fetchRewards, 3000);
             return () => clearTimeout(timer);
         } else if (status === "unauthenticated") {
-            // Tampilkan promo tamu setelah 8 detik
             const timer = setTimeout(() => {
                 setGuestPromoVisible(true);
             }, 8000);
@@ -58,9 +56,8 @@ export default function RewardNotification() {
             });
 
             if (res.ok) {
-                showToast(`Sukses! Bonus $${reward.amount.toFixed(2)} ditambahkan ke saldo kamu.`, "success");
+                showToast(`Sukses! Bonus $${reward.amount.toFixed(2)} ditambahkan.`, "success");
                 setVisible(false);
-                // Cek reward lain setelah 2 detik
                 setTimeout(fetchRewards, 2000);
             } else {
                 const data = await res.json();
@@ -76,36 +73,33 @@ export default function RewardNotification() {
     // 1. Render Promo Tamu (Guest)
     if (guestPromoVisible && status === "unauthenticated") {
         return (
-            <div className="fixed bottom-24 right-6 z-[9999] animate-in slide-in-from-right-full duration-700 ease-out">
-                <div className="bg-[#0F0F11]/90 backdrop-blur-xl border border-primary/20 p-5 rounded-[2rem] shadow-[0_20px_50px_rgba(var(--primary-rgb),0.2)] flex flex-col gap-4 max-w-[280px] relative overflow-hidden group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 to-purple-500/10 opacity-30 blur-xl group-hover:opacity-50 transition-all" />
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-500">
+                <div className="bg-[#0F0F11]/90 border border-primary/20 p-8 rounded-[2.5rem] shadow-[0_20px_50px_rgba(var(--primary-rgb),0.3)] flex flex-col gap-6 max-w-sm w-full relative overflow-hidden group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 to-purple-500/10 opacity-30 blur-xl" />
                     
-                    <div className="flex items-center gap-3 relative z-10">
-                        <div className="w-10 h-10 bg-primary/20 rounded-2xl flex items-center justify-center text-primary border border-primary/20">
-                            <Sparkles className="w-5 h-5" />
+                    <div className="flex flex-col items-center text-center gap-3 relative z-10">
+                        <div className="w-16 h-16 bg-primary/20 rounded-3xl flex items-center justify-center text-primary border border-primary/20 mb-2">
+                            <Sparkles className="w-8 h-8" />
                         </div>
-                        <div className="flex flex-col">
-                            <span className="text-[10px] font-black text-primary uppercase tracking-widest">Special Offer</span>
-                            <h4 className="text-sm font-bold text-white tracking-tight">Dapatkan $1.00 Gratis</h4>
-                        </div>
+                        <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Special Offer</span>
+                        <h4 className="text-2xl font-black text-white tracking-tight">Dapatkan $1.00 Gratis</h4>
+                        <p className="text-sm text-zinc-400 font-medium leading-relaxed">
+                            Gabung jadi member sekarang dan klaim bonus pendaftaran pertamamu secara gratis!
+                        </p>
                     </div>
 
-                    <p className="text-[11px] text-zinc-400 font-medium leading-relaxed relative z-10">
-                        Gabung jadi member sekarang dan klaim bonus pendaftaran pertamamu secara gratis!
-                    </p>
-
-                    <div className="flex items-center gap-2 relative z-10">
+                    <div className="flex flex-col gap-3 relative z-10">
                         <Link 
                             href="/auth/login"
-                            className="flex-1 bg-primary hover:bg-primary/90 text-white text-[10px] font-black uppercase tracking-widest py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20"
+                            className="w-full bg-primary hover:bg-primary/90 text-white text-xs font-black uppercase tracking-widest py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20"
                         >
-                            Daftar Sekarang <ArrowRight className="w-3 h-3" />
+                            Daftar Sekarang <ArrowRight className="w-4 h-4" />
                         </Link>
                         <button 
                             onClick={() => setGuestPromoVisible(false)}
-                            className="p-3 bg-white/5 hover:bg-white/10 text-zinc-500 rounded-xl transition-all"
+                            className="w-full py-3 text-zinc-500 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all"
                         >
-                            <X className="w-4 h-4" />
+                            Mungkin Nanti
                         </button>
                     </div>
                 </div>
@@ -116,53 +110,49 @@ export default function RewardNotification() {
     // 2. Render Reward Member (Authenticated)
     if (!visible || !reward) return null;
 
-    return (
-        <div className="fixed bottom-24 right-6 z-[9999] animate-in slide-in-from-right-full duration-700 ease-out">
-            <div className="bg-[#0F0F11]/95 backdrop-blur-2xl border border-primary/30 p-6 rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.6)] flex flex-col gap-5 max-w-[300px] relative overflow-hidden group">
-                {/* Animated Background Glow */}
-                <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-[80px] animate-pulse" />
-                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-[80px]" />
+    // Remove emojis from title and message if any
+    const cleanTitle = reward.title.replace(/[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
+    const cleanMessage = reward.message.replace(/[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
 
-                <div className="flex items-start justify-between relative z-10">
+    return (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in zoom-in-95 duration-500">
+            <div className="bg-[#0F0F11]/95 border border-primary/30 p-8 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.8)] flex flex-col gap-6 max-w-sm w-full relative overflow-hidden">
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 rounded-full blur-[100px]" />
+                
+                <div className="flex flex-col items-center text-center gap-4 relative z-10">
+                    <div className="w-20 h-20 bg-primary/10 border border-primary/20 rounded-[2rem] flex items-center justify-center mb-2">
+                        <Gift className="w-10 h-10 text-primary" />
+                    </div>
                     <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-2 px-2 py-1 bg-primary/10 border border-primary/20 rounded-full w-fit">
-                            <Gift className="w-3 h-3 text-primary" />
-                            <span className="text-[9px] font-black text-primary uppercase tracking-tighter">Claim Your Bonus</span>
-                        </div>
-                        <h4 className="text-lg font-black text-white tracking-tight mt-1 leading-tight">
-                            {reward.title}
+                        <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Reward Available</span>
+                        <h4 className="text-2xl font-black text-white tracking-tight">
+                            {cleanTitle}
                         </h4>
                     </div>
-                    <button 
-                        onClick={() => setVisible(false)}
-                        className="p-1.5 text-zinc-600 hover:text-white transition-all bg-white/5 rounded-full"
-                    >
-                        <X className="w-3.5 h-3.5" />
-                    </button>
+                    <p className="text-sm text-zinc-400 font-medium leading-relaxed px-4">
+                        {cleanMessage}
+                    </p>
                 </div>
 
-                <div className="flex flex-col gap-4 relative z-10">
-                    <div className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
-                        <p className="text-[11px] text-zinc-400 font-medium leading-relaxed">
-                            {reward.message}
-                        </p>
-                    </div>
-
+                <div className="flex flex-col gap-3 relative z-10">
                     <button
                         onClick={handleClaim}
                         disabled={claiming}
-                        className="w-full bg-white hover:bg-zinc-200 text-black py-4 rounded-2xl font-black text-xs uppercase tracking-[0.15em] flex items-center justify-center gap-3 transition-all shadow-xl disabled:opacity-50 active:scale-95"
+                        className="w-full bg-white hover:bg-zinc-200 text-black py-5 rounded-[1.5rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all shadow-2xl disabled:opacity-50"
                     >
                         {claiming ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
-                            <>Klaim Bonus ${reward.amount.toFixed(2)} <Sparkles className="w-4 h-4 text-primary" /></>
+                            <>Klaim Bonus ${reward.amount.toFixed(2)}</>
                         )}
                     </button>
+                    <button 
+                        onClick={() => setVisible(false)}
+                        className="w-full py-3 text-zinc-600 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all"
+                    >
+                        Tutup
+                    </button>
                 </div>
-
-                {/* Corner Sparkle */}
-                <Sparkles className="absolute top-4 right-4 w-12 h-12 text-primary/5 -rotate-12 pointer-events-none" />
             </div>
         </div>
     );

@@ -28,7 +28,7 @@ export async function GET() {
             rewards.push({
                 id: "REGISTRATION_BONUS",
                 type: "REGISTRATION",
-                title: "Welcome Bonus! 🎁",
+                title: "Welcome Bonus",
                 message: "Klaim $1.00 pertama kamu sebagai hadiah selamat datang!",
                 amount: settings?.registrationBonus || 1.00
             });
