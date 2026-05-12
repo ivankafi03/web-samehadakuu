@@ -35,7 +35,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cuanflix.com"),
+  metadataBase: new URL("https://cuanflix.site"),
   title: {
     default: "Cuanflix - Premium Database | HD Streaming",
     template: "%s | Cuanflix"
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cuanflix - Premium Streaming Database",
     description: "Database streaming tercepat dan terlengkap dengan antarmuka yang bersih.",
-    url: "https://cuanflix.com",
+    url: "https://cuanflix.site",
     siteName: "Cuanflix",
     images: [
       {

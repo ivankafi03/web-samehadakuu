@@ -43,7 +43,7 @@ export default function Footer() {
                 { name: "Privacy Policy", href: "/privacy" },
                 { name: "Terms of Service", href: "/terms" },
                 { name: "DMCA", href: "/terms" },
-                { name: "Contact", href: settings?.supportEmail ? `mailto:${settings.supportEmail}` : "mailto:support@cuanflix.com" },
+                { name: "Contact", href: settings?.supportEmail ? `mailto:${settings.supportEmail}` : "mailto:support@cuanflix.site" },
             ],
         },
     ];
