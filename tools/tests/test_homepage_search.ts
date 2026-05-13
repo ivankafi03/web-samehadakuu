@@ -1,4 +1,4 @@
-import { searchJav } from "./lib/jav";
+import { searchJav } from "../../lib/jav";
 
 async function test() {
     console.log("Testing search for 'Beautiful Breasts'...");
