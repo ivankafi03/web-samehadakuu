@@ -47,7 +47,7 @@ export default function Navbar() {
 
     const navLinks = [
         { name: "Home", href: "/" },
-        { name: "Explore", href: "/jav" },
+        { name: "Explore", href: "/categories" },
         { name: "Categories", href: "/categories" },
     ];
 
@@ -89,7 +89,7 @@ export default function Navbar() {
                                     <Logo className="w-8 h-8 md:w-9 md:h-9 shadow-lg shadow-primary/20 rounded-xl" />
                                 </motion.div>
                                 <span className="text-white font-black text-xl tracking-tight hidden sm:block">
-                                    Cuan<span className="text-primary">flix</span>
+                                    Samehada<span className="text-primary">kuu</span>
                                 </span>
                             </motion.div>
                         ) : (
@@ -140,7 +140,7 @@ export default function Navbar() {
                             className="absolute left-1/2 -translate-x-1/2 md:hidden"
                         >
                             <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em] drop-shadow-[0_0_8px_rgba(244,114,182,0.4)]">
-                                cuanflix.site
+                                samehadakuu.com
                             </span>
                         </motion.div>
                     )}

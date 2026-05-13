@@ -23,7 +23,7 @@ export default function Footer() {
             title: "Navigation",
             links: [
                 { name: "Home", href: "/" },
-                { name: "Videos", href: "/jav" },
+                { name: "Explore", href: "/categories" },
                 { name: "Categories", href: "/categories" },
                 { name: "Popular", href: "/search?q=popular" },
             ],
@@ -43,7 +43,7 @@ export default function Footer() {
                 { name: "Privacy Policy", href: "/privacy" },
                 { name: "Terms of Service", href: "/terms" },
                 { name: "DMCA", href: "/terms" },
-                { name: "Contact", href: settings?.supportEmail ? `mailto:${settings.supportEmail}` : "mailto:support@cuanflix.site" },
+                { name: "Contact", href: settings?.supportEmail ? `mailto:${settings.supportEmail}` : "mailto:admin@samehadakuu.com" },
             ],
         },
     ];
@@ -59,11 +59,11 @@ export default function Footer() {
                         <Link href="/" className="flex items-center gap-2 mb-6 group">
                             <Logo className="w-8 h-8 rounded-xl shadow-lg shadow-primary/20" />
                             <span className="text-white font-bold text-xl tracking-tight">
-                                Cuan<span className="text-primary">flix</span>
+                                Samehada<span className="text-primary">kuu</span>
                             </span>
                         </Link>
                         <p className="text-zinc-500 text-sm max-w-xs leading-relaxed mb-6 font-medium">
-                            The best place to explore premium videos while earning rewards. Join our community and start your journey today!
+                            Nonton anime subtitle Indonesia terlengkap dan terupdate setiap hari. Pengalaman streaming anime terbaik hanya di Samehadakuu.
                         </p>
                         <div className="flex gap-4">
                             {settings?.xLink && (
@@ -116,7 +116,7 @@ export default function Footer() {
 
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="text-zinc-600 text-xs font-medium">
-                        © {currentYear} Cuanflix. All rights reserved. Premium database.
+                        © {currentYear} Samehadakuu. All rights reserved. Nonton anime sub indo.
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />

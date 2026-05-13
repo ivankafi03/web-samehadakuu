@@ -9,8 +9,8 @@ import prisma from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Cuanflix - Premium Database",
-  description: "Explore the world's most comprehensive Japanese adult video database with Cuanflix. Fast, aesthetic, and perfectly curated for your journey.",
+  title: "Samehadakuu - Nonton Anime Sub Indo Gratis",
+  description: "Portal nonton anime subtitle Indonesia terlengkap dan terupdate. Nikmati pengalaman streaming anime kualitas HD tanpa buffering hanya di Samehadakuu.",
 };
 
 const CATEGORY_MAP: Record<string, string> = {
