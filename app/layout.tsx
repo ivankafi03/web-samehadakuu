@@ -69,6 +69,11 @@ export const metadata: Metadata = {
     description: "Update anime terbaru setiap hari hanya di Samehadakuu.",
     images: ["/og-image.png"],
   },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export const viewport: Viewport = {

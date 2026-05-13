@@ -2,16 +2,28 @@ import React from "react";
 
 interface LogoProps {
     className?: string;
+    size?: "sm" | "md" | "lg" | "xl";
+    showText?: boolean;
 }
 
-export default function Logo({ className = "w-8 h-8" }: LogoProps) {
+export default function Logo({ className = "", size = "md", showText = false }: LogoProps) {
+    const sizeClasses = {
+        sm: "w-6 h-6",
+        md: "w-10 h-10",
+        lg: "w-16 h-16",
+        xl: "w-24 h-24"
+    };
+
+    const finalClass = className || sizeClasses[size];
+
     return (
-        <svg 
-            viewBox="0 0 200 200" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-            className={className}
-        >
+        <div className="flex items-center gap-2">
+            <svg 
+                viewBox="0 0 200 200" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                className={finalClass}
+            >
             {/* Background Shape */}
             <rect width="200" height="200" rx="40" fill="url(#paint0_linear)" />
             
@@ -36,6 +48,12 @@ export default function Logo({ className = "w-8 h-8" }: LogoProps) {
                     <stop offset="1" stopColor="#e81cff" /> {/* Deep Pink/Purple accent */}
                 </linearGradient>
             </defs>
-        </svg>
+            </svg>
+            {showText && (
+                <span className="text-xl font-black text-white tracking-tighter uppercase">
+                    Samehadakuu
+                </span>
+            )}
+        </div>
     );
 }
