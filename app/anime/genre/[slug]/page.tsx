@@ -1,6 +1,6 @@
 import React from "react";
 import AnimeSection from "@/components/AnimeSection";
-import { getAnimeList, mapAnimeList } from "@/lib/anime";
+import { getAnimeList, mapAnimeList } from "@/lib/cuanflix";
 
 interface GenrePageProps {
     params: {
