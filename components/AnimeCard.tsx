@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import ClientImage from "./ClientImage";
-import { getSlugFromUrl } from "@/lib/cuanflix";
+import { getSlugFromUrl } from "@/lib/anime";
 
 interface AnimeCardProps {
     id: number;
@@ -15,12 +15,9 @@ interface AnimeCardProps {
 }
 
 export default function AnimeCard({ id, title, image, rating, episodes, episodeRaw, type, href }: AnimeCardProps) {
-    const isJav = type === "JAV" || type === "Hentai" || href?.includes("/jav/");
     const slug = getSlugFromUrl(href);
     const cleanSlug = slug?.replace(/^anime\//, "").replace(/^watch\//, "");
-    const detailHref = cleanSlug
-        ? (isJav || cleanSlug.startsWith("jav/")) ? `/watch/${cleanSlug}` : `/anime/${cleanSlug}`
-        : isJav ? `/jav` : `/anime/${id}`;
+    const detailHref = cleanSlug ? `/watch/${cleanSlug}` : `/anime/${id}`;
 
     const epLabel = episodeRaw ? episodeRaw : `EP ${episodes}`;
 

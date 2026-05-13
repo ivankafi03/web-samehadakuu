@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { Play, Star, Clock, Calendar, List } from "lucide-react";
 import { redirect } from "next/navigation";
-import { getAnimeDetail, getUrlFromSlug, getSlugFromUrl } from "@/lib/cuanflix";
+import { getAnimeDetail, getUrlFromSlug, getSlugFromUrl } from "@/lib/anime";
 import WatchlistButton from "@/components/WatchlistButton";
 import AnimeShareButton from "@/components/AnimeShareButton";
 
@@ -19,10 +19,10 @@ export async function generateMetadata({
     const url = getUrlFromSlug(fullPath);
     const anime = await getAnimeDetail(url);
 
-    if (!anime) return { title: "Video Detail - Cuanflix" };
+    if (!anime) return { title: "Video Detail - Samehadakuu" };
 
     return {
-        title: `Watch ${anime.title} Online - Cuanflix`,
+        title: `Watch ${anime.title} Online - Samehadakuu`,
         description: `Stream ${anime.title} with HD quality for free. Synopsis: ${anime.synopsis?.slice(0, 160)}...`,
         openGraph: {
             images: [anime.image],

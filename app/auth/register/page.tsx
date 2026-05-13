@@ -2,8 +2,8 @@ import RegisterForm from "@/components/RegisterForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Daftar Akun Baru - Cuanflix",
-    description: "Buat akun baru di Cuanflix dan nikmati database video premium terlengkap.",
+    title: "Daftar Akun Baru - Samehadakuu",
+    description: "Buat akun baru di Samehadakuu dan nikmati database video premium terlengkap.",
 };
 
 export default function RegisterPage() {

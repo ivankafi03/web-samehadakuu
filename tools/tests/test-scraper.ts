@@ -1,4 +1,4 @@
-import { getLatestAnime } from '../../lib/cuanflix';
+import { getLatestAnime } from '../../lib/anime';
 
 async function test() {
     console.log("Testing getLatestAnime...");

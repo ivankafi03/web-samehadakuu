@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Privacy Policy",
-    description: "Privacy policy for Cuanflix - Learn how we handle your data.",
+    description: "Privacy policy for Samehadakuu - Learn how we handle your data.",
 };
 
 export default function PrivacyPage() {
@@ -15,9 +15,9 @@ export default function PrivacyPage() {
                 <section>
                     <h2 className="text-xl font-bold text-white mb-4">1. Introduction</h2>
                     <p>
-                        Welcome to Cuanflix. We are committed to protecting your personal information and your right to privacy. 
+                        Welcome to Samehadakuu. We are committed to protecting your personal information and your right to privacy. 
                         If you have any questions or concerns about our policy, or our practices with regards to your personal information, 
-                        please contact us at support@cuanflix.com.
+                        please contact us at support@samehadakuu.com.
                     </p>
                 </section>
 

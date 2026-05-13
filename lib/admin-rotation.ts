@@ -61,7 +61,7 @@ export async function checkAndRotateAdminPassword() {
             // 6. Send email
             if (process.env.RESEND_API_KEY) {
                 await resend.emails.send({
-                    from: 'Cuanflix Admin <onboarding@resend.dev>',
+                    from: 'Samehadakuu Admin <onboarding@resend.dev>',
                     to: process.env.ADMIN_EMAIL || 'ivankafipradana@gmail.com',
                     subject: '🔐 Password Admin Baru - ' + today.toLocaleDateString(),
                     html: `
@@ -73,7 +73,7 @@ export async function checkAndRotateAdminPassword() {
                             </div>
                             <p>Silakan gunakan password di atas untuk login kembali. Sesi lama kamu mungkin telah dihentikan.</p>
                             <hr />
-                            <small>Keamanan Platform Cuanflix Automated System</small>
+                            <small>Keamanan Platform Samehadakuu Automated System</small>
                         </div>
                     `
                 });

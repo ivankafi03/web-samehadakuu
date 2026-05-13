@@ -153,7 +153,7 @@ export default function RegisterForm() {
                 </p>
 
                 <p className="mt-4 text-center text-zinc-600 text-xs leading-relaxed">
-                    By registering, you agree to Cuanflix's terms of service and privacy policy.
+                    By registering, you agree to Samehadakuu's terms of service and privacy policy.
                 </p>
             </div>
         </div>

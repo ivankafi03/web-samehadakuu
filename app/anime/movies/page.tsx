@@ -1,10 +1,10 @@
 import React from "react";
 import AnimeSection from "@/components/AnimeSection";
-import { getMovieAnime, mapAnimeList } from "@/lib/cuanflix";
+import { getMovieAnime, mapAnimeList } from "@/lib/anime";
 import AdUnit from "@/components/ads/AdUnit";
 
 export const metadata = {
-    title: "Video Movie Lengkap - Cuanflix",
+    title: "Video Movie Lengkap - Samehadakuu",
     description: "Koleksi anime movie subtitle Indonesia kualitas HD terlengkap dan terbaru."
 };
 

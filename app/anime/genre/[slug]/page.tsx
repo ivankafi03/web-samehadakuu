@@ -1,6 +1,6 @@
 import React from "react";
 import AnimeSection from "@/components/AnimeSection";
-import { getAnimeList, mapAnimeList } from "@/lib/cuanflix";
+import { getAnimeList, mapAnimeList } from "@/lib/anime";
 
 interface GenrePageProps {
     params: {
@@ -11,7 +11,7 @@ interface GenrePageProps {
 export async function generateMetadata({ params }: GenrePageProps) {
     const genreName = params.slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     return {
-        title: `Watch ${genreName} Videos Online - Cuanflix`,
+        title: `Watch ${genreName} Videos Online - Samehadakuu`,
         description: `Complete collection of ${genreName} anime with HD quality.`
     };
 }

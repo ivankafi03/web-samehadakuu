@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import VideoPlayer from "./VideoPlayer";
 import WatchEarningManager from "./WatchEarningManager";
-import { VideoServer } from "@/lib/cuanflix";
+import { VideoServer } from "@/lib/anime";
 import dynamic from "next/dynamic";
 import AdUnit from "./ads/AdUnit";
 import { List, X, ChevronRight, Sparkles, Download } from "lucide-react";

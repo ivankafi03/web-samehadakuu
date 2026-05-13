@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Access Blocked - Cuanflix",
+    title: "Access Blocked - Samehadakuu",
     robots: { index: false, follow: false }
 };
 

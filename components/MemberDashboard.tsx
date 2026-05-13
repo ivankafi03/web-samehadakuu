@@ -507,7 +507,7 @@ export default function MemberDashboard({ user }: { user: any }) {
                                         <div className="flex items-center gap-3">
                                             <div className="p-2 bg-primary/10 rounded-xl"><Trophy className="w-4 h-4 text-primary" /></div>
                                             <div>
-                                                <h3 className="text-sm font-bold text-white">Cuanflix Rankings</h3>
+                                                <h3 className="text-sm font-bold text-white">Samehadakuu Rankings</h3>
                                                 <p className="text-xs text-zinc-400">Arena Terkuat Para Member</p>
                                             </div>
                                         </div>

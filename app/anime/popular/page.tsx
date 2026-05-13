@@ -1,11 +1,11 @@
 import React from "react";
 import AnimeSection from "@/components/AnimeSection";
-import { getPopularAnime, mapAnimeList } from "@/lib/cuanflix";
+import { getPopularAnime, mapAnimeList } from "@/lib/anime";
 import AdUnit from "@/components/ads/AdUnit";
 
 export const metadata = {
-    title: "Video Paling Populer - Cuanflix",
-    description: "Daftar video paling populer dan banyak ditonton oleh komunitas Cuanflix."
+    title: "Video Paling Populer - Samehadakuu",
+    description: "Daftar video paling populer dan banyak ditonton oleh komunitas Samehadakuu."
 };
 
 export default async function PopularPage() {

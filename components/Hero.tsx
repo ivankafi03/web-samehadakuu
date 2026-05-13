@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Play, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getSlugFromUrl } from "@/lib/cuanflix";
+import { getSlugFromUrl } from "@/lib/anime";
 import WatchlistButton from "./WatchlistButton";
 
 interface HeroProps {
@@ -101,7 +101,7 @@ export default function Hero({ data }: HeroProps) {
                             </h1>
 
                             <p className="text-xs sm:text-sm md:text-base text-zinc-400 leading-relaxed max-w-lg line-clamp-2 hidden sm:block">
-                                Tonton {currentAnime.title} dengan kualitas terbaik di Cuanflix.
+                                Tonton {currentAnime.title} dengan kualitas terbaik di Samehadakuu.
                             </p>
                             <div className="flex items-center gap-2 sm:gap-4 pt-4 flex-wrap">
                                 <div className="flex items-center gap-2">

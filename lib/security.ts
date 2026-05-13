@@ -35,7 +35,7 @@ export function getBrowserFingerprint(): string {
     if (!ctx) return "unknown";
 
     // Text with different fonts and styles
-    const txt = 'Cuanflix-AntiBot-V1';
+    const txt = 'Samehadakuu-AntiBot-V1';
     ctx.textBaseline = "top";
     ctx.font = "14px 'Arial'";
     ctx.textBaseline = "alphabetic";

@@ -1,4 +1,4 @@
-import { getPopularAnime } from '../../lib/cuanflix';
+import { getPopularAnime } from '../../lib/anime';
 
 async function testPopular() {
     console.log("Testing getPopularAnime...");

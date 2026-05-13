@@ -83,11 +83,11 @@ export async function POST(req: Request) {
                 maintenanceMessage: maintenanceMessage || "Situs sedang dalam pemeliharaan rutin untuk meningkatkan performa.",
                 ...(registrationBonus !== undefined && { registrationBonus: parseFloat(registrationBonus) || 0.1 }),
                 ...(welcomeBonus !== undefined && { welcomeBonus: parseFloat(welcomeBonus) || 1.0 }),
-                telegramLink: telegramLink ?? "https://t.me/cuanflix_official",
-                xLink: xLink !== undefined ? xLink : "https://x.com/cuanflix",
-                instagramLink: instagramLink !== undefined ? instagramLink : "https://instagram.com/cuanflix",
-                tiktokLink: tiktokLink !== undefined ? tiktokLink : "https://tiktok.com/@cuanflix",
-                supportEmail: supportEmail !== undefined ? supportEmail : "support@cuanflix.com",
+                telegramLink: telegramLink ?? "https://t.me/samehadakuu_official",
+                xLink: xLink !== undefined ? xLink : "https://x.com/samehadakuu",
+                instagramLink: instagramLink !== undefined ? instagramLink : "https://instagram.com/samehadakuu",
+                tiktokLink: tiktokLink !== undefined ? tiktokLink : "https://tiktok.com/@samehadakuu",
+                supportEmail: supportEmail !== undefined ? supportEmail : "support@samehadakuu.com",
             }
         });
 

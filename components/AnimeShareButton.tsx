@@ -29,7 +29,7 @@ export default function AnimeShareButton({ animeTitle, className }: AnimeShareBu
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `Nonton ${animeTitle} - Cuanflix`,
+                    title: `Nonton ${animeTitle} - Samehadakuu`,
                     text: `Tonton ${animeTitle} subtitle Indonesia gratis!`,
                     url: shareUrl,
                 });

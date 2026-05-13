@@ -56,11 +56,8 @@ export default function Footer() {
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 mb-16">
                     {/* Brand Section */}
                     <div className="col-span-2 lg:col-span-2">
-                        <Link href="/" className="flex items-center gap-2 mb-6 group">
-                            <Logo className="w-8 h-8 rounded-xl shadow-lg shadow-primary/20" />
-                            <span className="text-white font-bold text-xl tracking-tight">
-                                Samehada<span className="text-primary">kuu</span>
-                            </span>
+                        <Link href="/" className="flex items-center mb-6 group">
+                            <Logo size="md" />
                         </Link>
                         <p className="text-zinc-500 text-sm max-w-xs leading-relaxed mb-6 font-medium">
                             Nonton anime subtitle Indonesia terlengkap dan terupdate setiap hari. Pengalaman streaming anime terbaik hanya di Samehadakuu.

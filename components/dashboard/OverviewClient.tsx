@@ -123,7 +123,7 @@ export default function OverviewClient({ user }: { user: any }) {
                             </div>
 
                             <a 
-                                href={settings?.telegramLink || "https://t.me/cuanflix_official"} 
+                                href={settings?.telegramLink || "https://t.me/samehadakuu_official"} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="w-full sm:w-auto px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-black rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:scale-105 active:scale-95"

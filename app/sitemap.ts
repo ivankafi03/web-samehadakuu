@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getLatestAnime, getSlugFromUrl, AnimeLatest } from '@/lib/cuanflix'
+import { getLatestAnime, getSlugFromUrl, AnimeLatest } from '@/lib/anime'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const latestAnime = await getLatestAnime()

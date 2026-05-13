@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Play, X } from "lucide-react";
-import { VideoServer } from "@/lib/cuanflix";
+import { VideoServer } from "@/lib/anime";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";

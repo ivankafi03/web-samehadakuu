@@ -1,10 +1,10 @@
 import React from "react";
 import AnimeSection from "@/components/AnimeSection";
-import { getOngoingAnime, mapAnimeList } from "@/lib/cuanflix";
+import { getOngoingAnime, mapAnimeList } from "@/lib/anime";
 import AdUnit from "@/components/ads/AdUnit";
 
 export const metadata = {
-    title: "Video Terbaru - Cuanflix",
+    title: "Video Terbaru - Samehadakuu",
     description: "Nonton anime yang sedang tayang (ongoing) subtitle Indonesia terbaru dan tercepat."
 };
 

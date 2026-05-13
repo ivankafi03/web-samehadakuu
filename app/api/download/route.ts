@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const url = searchParams.get("url");
-    const filename = searchParams.get("filename") || "cuanflix_video.mp4";
+    const filename = searchParams.get("filename") || "samehadakuu_video.mp4";
 
     if (!url) {
         return new NextResponse("Missing URL", { status: 400 });

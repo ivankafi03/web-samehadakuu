@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Terms of Service",
-    description: "Terms and conditions for using Cuanflix.",
+    description: "Terms and conditions for using Samehadakuu.",
 };
 
 export default function TermsPage() {
@@ -15,7 +15,7 @@ export default function TermsPage() {
                 <section>
                     <h2 className="text-xl font-bold text-white mb-4">1. Acceptance of Terms</h2>
                     <p>
-                        By accessing and using Cuanflix ("we", "us", or "our"), you agree to be bound by these Terms of Service 
+                        By accessing and using Samehadakuu ("we", "us", or "our"), you agree to be bound by these Terms of Service 
                         and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited 
                         from using or accessing this site.
                     </p>
@@ -54,7 +54,7 @@ export default function TermsPage() {
                 <section>
                     <h2 className="text-xl font-bold text-white mb-4">5. Limitations</h2>
                     <p>
-                        In no event shall Cuanflix or its suppliers be liable for any damages (including, without limitation, 
+                        In no event shall Samehadakuu or its suppliers be liable for any damages (including, without limitation, 
                         damages for loss of data or profit, or due to business interruption) arising out of the use or inability 
                         to use the materials on our website.
                     </p>
@@ -65,7 +65,7 @@ export default function TermsPage() {
                     <p>
                         We respect the intellectual property rights of others. If you believe that any material available on or 
                         through the website infringes upon any copyright you own or control, please contact us immediately at 
-                        support@cuanflix.com.
+                        support@samehadakuu.com.
                     </p>
                 </section>
 

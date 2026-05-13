@@ -3,8 +3,7 @@ import Link from "next/link";
 import { MessageSquare, List, ThumbsUp, Heart, Share2, Info, Sparkles, Play, Layers } from "lucide-react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getWatchPageData, getUrlFromSlug, getSlugFromUrl, getAnimeDetail, searchAnime, getLatestAnime } from "@/lib/cuanflix";
-import { getJavWatchData, getJavDetail, searchJav } from "@/lib/jav";
+import { getWatchPageData, getUrlFromSlug, getSlugFromUrl, getAnimeDetail, searchAnime, getLatestAnime } from "@/lib/anime";
 import VideoPlayer from "@/components/VideoPlayer";
 import ReportButton from "@/components/ReportButton";
 import WatchActions from "@/components/WatchActions";
@@ -25,14 +24,7 @@ export async function generateMetadata({
     const path = slug.join('/');
 
     const url = getUrlFromSlug(path);
-    let watchData: any = null;
-    
-    if (path.startsWith('jav/')) {
-        const id = path.split('/').pop() || '';
-        watchData = await getJavWatchData(id);
-    } else {
-        watchData = await getWatchPageData(url);
-    }
+    const watchData = await getWatchPageData(url);
 
     // Guess a readable title from the slug, or use watchData.title if available
     const title = watchData?.title || path.split('/').pop()?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || "Watch Anime";
@@ -78,42 +70,15 @@ export default async function WatchPrettyPage({
     }
 
     const url = getUrlFromSlug(path);
-    let watchData: any = null;
-    let seriesDetail: any = null;
-
-    if (path.startsWith('jav/')) {
-        const id = path.split('/').pop() || '';
-        const [watchRes, detailRes] = await Promise.all([
-            getJavWatchData(id),
-            getJavDetail(id)
-        ]);
-        watchData = watchRes;
-        seriesDetail = detailRes;
-    } else {
-        const [watchRes, detailRes] = await Promise.all([
-            getWatchPageData(url),
-            getAnimeDetail(url)
-        ]);
-        watchData = watchRes;
-        seriesDetail = detailRes;
-    }
+    const [watchData, seriesDetail] = await Promise.all([
+        getWatchPageData(url),
+        getAnimeDetail(url)
+    ]);
 
     // Fetch related anime based on the first genre
     let relatedAnime: any[] = [];
     try {
-        if (path.startsWith('jav/')) {
-            const { videos: results } = await searchJav('School'); // Default category for related
-            relatedAnime = results.slice(0, 6).map((item, idx) => ({
-                id: idx + 1,
-                title: item.title,
-                image: item.image,
-                rating: 0,
-                episodes: 1,
-                episodeRaw: item.episode,
-                type: 'JAV',
-                href: `/watch/${item.href}`
-            }));
-        } else if (seriesDetail && seriesDetail.genres && seriesDetail.genres.length > 0) {
+        if (seriesDetail && seriesDetail.genres && seriesDetail.genres.length > 0) {
             relatedAnime = await searchAnime(seriesDetail.genres[0]);
         }
         

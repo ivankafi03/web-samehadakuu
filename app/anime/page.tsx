@@ -1,6 +1,6 @@
 import React from "react";
 import AnimeSection from "@/components/AnimeSection";
-import { getAnimeList, mapAnimeList } from "@/lib/cuanflix";
+import { getAnimeList, mapAnimeList } from "@/lib/anime";
 import AdUnit from "@/components/ads/AdUnit";
 
 export default async function AnimeListPage() {
