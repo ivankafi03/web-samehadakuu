@@ -890,3 +890,17 @@ export async function searchAnime(query: string): Promise<AnimeLatest[]> {
         return [];
     }
 }
+
+export function mapAnimeList(list: any[]) {
+    return list.map((item, index) => ({
+        id: index + 1,
+        title: item.title,
+        image: item.image,
+        rating: item.rating || 0,
+        episodes: item.episodes || 1,
+        episodeRaw: item.episode || item.status || "",
+        type: item.type || "TV",
+        href: `/watch/${item.href || item.link || ""}`,
+    }));
+}
+
