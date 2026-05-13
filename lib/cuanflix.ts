@@ -152,6 +152,7 @@ export interface WatchPageData {
     episode: string;
     type: string;
     servers: VideoServer[];
+    downloads: any[];
 }
 
 /**
