@@ -1,4 +1,4 @@
-import { getLatestVideos, getJavDetail, getJavWatchData, searchJav } from './lib/jav';
+import { getLatestVideos, getJavDetail, getJavWatchData, searchJav } from '../../lib/jav';
 
 async function test() {
     console.log("--- Testing getLatestVideos ---");
