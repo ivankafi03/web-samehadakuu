@@ -31,21 +31,48 @@ export default function AdNative({ className = "" }: { className?: string }) {
     if (!shouldRender) return null;
 
     return (
-        <div className={`w-full flex justify-center py-6 px-2 overflow-hidden ${className}`}>
+        <div className={`w-full flex justify-center py-4 sm:py-8 overflow-hidden relative ${className}`}>
             <div 
-                id="container-cc6b63069d4fbfd8dc3934796f64530a" 
-                ref={containerRef} 
-                className="w-full max-w-full min-h-[250px] flex justify-center items-center overflow-x-auto no-scrollbar"
+                className="w-full flex justify-center items-center"
                 style={{
-                    WebkitOverflowScrolling: 'touch',
+                    marginLeft: 'calc(50% - 50vw)',
+                    marginRight: 'calc(50% - 50vw)',
+                    width: '100vw',
+                    maxWidth: '100vw',
                 }}
-            />
+            >
+                <div 
+                    id="container-cc6b63069d4fbfd8dc3934796f64530a" 
+                    ref={containerRef} 
+                    className="flex justify-center items-center ad-container-responsive"
+                    style={{
+                        minWidth: '320px',
+                        transformOrigin: 'center center',
+                    }}
+                />
+            </div>
+
             <style jsx global>{`
-                #container-cc6b63069d4fbfd8dc3934796f64530a > div,
-                #container-cc6b63069d4fbfd8dc3934796f64530a iframe {
-                    max-width: 100% !important;
-                    height: auto !important;
+                .ad-container-responsive {
+                    width: 100% !important;
+                    max-width: 100vw !important;
+                    overflow: visible !important;
+                }
+
+                #container-cc6b63069d4fbfd8dc3934796f64530a > div {
                     margin: 0 auto !important;
+                }
+
+                /* Agresif scaling untuk HP kecil agar tidak terpotong */
+                @media (max-width: 400px) {
+                    .ad-container-responsive {
+                        transform: scale(0.95);
+                    }
+                }
+                @media (max-width: 360px) {
+                    .ad-container-responsive {
+                        transform: scale(0.85);
+                    }
                 }
             `}</style>
         </div>
