@@ -31,12 +31,23 @@ export default function AdNative({ className = "" }: { className?: string }) {
     if (!shouldRender) return null;
 
     return (
-        <div className={`w-full flex justify-center py-6 ${className}`}>
+        <div className={`w-full flex justify-center py-6 px-2 overflow-hidden ${className}`}>
             <div 
                 id="container-cc6b63069d4fbfd8dc3934796f64530a" 
                 ref={containerRef} 
-                className="w-full max-w-full min-h-[250px] flex justify-center items-center"
+                className="w-full max-w-full min-h-[250px] flex justify-center items-center overflow-x-auto no-scrollbar"
+                style={{
+                    WebkitOverflowScrolling: 'touch',
+                }}
             />
+            <style jsx global>{`
+                #container-cc6b63069d4fbfd8dc3934796f64530a > div,
+                #container-cc6b63069d4fbfd8dc3934796f64530a iframe {
+                    max-width: 100% !important;
+                    height: auto !important;
+                    margin: 0 auto !important;
+                }
+            `}</style>
         </div>
     );
 }

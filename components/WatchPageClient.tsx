@@ -15,9 +15,19 @@ const CommentSection = dynamic(() => import("./CommentSection"), {
     ssr: false
 });
 
+interface DownloadLink {
+    name: string;
+    link: string;
+}
+
+interface DownloadFormat {
+    format: string;
+    links: DownloadLink[];
+}
+
 interface WatchPageClientProps {
     servers: VideoServer[];
-    downloads?: any[];
+    downloads?: DownloadFormat[];
     videoId: string;
     children?: React.ReactNode;
     sidebar?: React.ReactNode;

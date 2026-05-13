@@ -35,29 +35,29 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cuanflix.site"),
+  metadataBase: new URL("https://samehadakuu.com"),
   title: {
-    default: "Cuanflix - Premium Database | HD Streaming",
-    template: "%s | Cuanflix"
+    default: "Samehadakuu - Nonton Anime Sub Indo Terlengkap & Dapat Cuan!",
+    template: "%s | Samehadakuu"
   },
-  description: "Eksplorasi database video terlengkap dengan Cuanflix. Streaming HD, Cepat, & Estetik.",
-  keywords: ["streaming video", "cuanflix", "hd video", "nonton hd"],
-  authors: [{ name: "Cuanflix Team" }],
+  description: "Situs nonton anime sub indo terlengkap, tercepat, dan SATU-SATUNYA yang membayar kamu! Hasilkan cuan sambil nonton anime favoritmu hanya di Samehadakuu.",
+  keywords: ["nonton anime", "anime sub indo", "nonton anime dapat uang", "samehadakuu", "streaming anime", "cuan nonton anime"],
+  authors: [{ name: "Samehadakuu Team" }],
 
   other: {
     monetag: "355a8ebbeed7ba984eb785bbb6977945",
   },
   openGraph: {
-    title: "Cuanflix - Premium Streaming Database",
-    description: "Database streaming tercepat dan terlengkap dengan antarmuka yang bersih.",
-    url: "https://cuanflix.site",
-    siteName: "Cuanflix",
+    title: "Samehadakuu - Situs Nonton Anime Sub Indo Terlengkap",
+    description: "Nonton anime sub indo terbaru dengan kualitas HD dan update setiap hari.",
+    url: "https://samehadakuu.com",
+    siteName: "Samehadakuu",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Cuanflix - Streaming",
+        alt: "Samehadakuu - Anime Streaming",
       },
     ],
     locale: "id_ID",
@@ -65,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cuanflix - Premium Streaming Database",
-    description: "Streaming tercepat dengan antarmuka premium.",
+    title: "Samehadakuu - Nonton Anime Sub Indo HD",
+    description: "Update anime terbaru setiap hari hanya di Samehadakuu.",
     images: ["/og-image.png"],
   },
 };
