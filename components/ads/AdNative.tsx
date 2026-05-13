@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function AdNative({ className = "" }: { className?: string }) {
-    return null;
     const pathname  = usePathname() || "";
     const [mounted, setMounted] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -32,8 +31,12 @@ export default function AdNative({ className = "" }: { className?: string }) {
     if (!shouldRender) return null;
 
     return (
-        <div className={`w-full overflow-hidden ${className}`}>
-            <div id="container-cc6b63069d4fbfd8dc3934796f64530a" ref={containerRef} />
+        <div className={`w-full flex justify-center py-6 ${className}`}>
+            <div 
+                id="container-cc6b63069d4fbfd8dc3934796f64530a" 
+                ref={containerRef} 
+                className="w-full max-w-full min-h-[250px] flex justify-center items-center"
+            />
         </div>
     );
 }

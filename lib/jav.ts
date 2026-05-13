@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import prisma from "./prisma";
 
 const SOURCE_URL = "https://nontonasik.my.id/jav-domain/";
 
@@ -13,6 +14,11 @@ export interface AnimeLatest {
     href: string;
 }
 
+export interface HomepageCategory {
+    title: string;
+    videos: AnimeLatest[];
+}
+
 export interface VideoServer {
     name: string;
     iframe: string;
@@ -25,6 +31,7 @@ export interface WatchPageData {
     episode: string;
     type: string;
     servers: VideoServer[];
+    downloads: any[];
 }
 
 export interface AnimeDetail {
@@ -65,7 +72,7 @@ function cleanTitle(title: string): string {
     return title.length > 50 ? title.substring(0, 50) + "..." : title;
 }
 
-async function fetchWithTimeout(url: string, options: any = {}) {
+async function fetchWithTimeout(url: string, options: any = {}): Promise<string> {
     const { timeout = 30000, retries = 3 } = options;
     
     for (let i = 0; i < retries; i++) {
@@ -97,6 +104,7 @@ async function fetchWithTimeout(url: string, options: any = {}) {
             await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
+    return "";
 }
 
 /**
@@ -183,7 +191,7 @@ async function refreshLatestVideosCache(page: number): Promise<SearchResult> {
     try {
         const pageUrl = page === 1 ? `${SOURCE_URL}videos` : `${SOURCE_URL}videos?pg=${page}`;
         const html = await fetchWithTimeout(pageUrl);
-        const dataObj = extractNuxtObject(html);
+        const dataObj = extractNuxtObject(html || "");
         
         const data = dataObj?.['explore-1'] || 
                      dataObj?.['explore-0'] || 
@@ -271,8 +279,6 @@ export async function getVideosByCategory(categoryId: string, page: number = 1):
 }
 
 
-import prisma from "./prisma";
-
 export async function getHomepageCategories(): Promise<HomepageCategory[]> {
     const CACHE_KEY = "homepage_categories";
     const REVALIDATE_MS = 60 * 60 * 1000; // 1 hour
@@ -324,7 +330,7 @@ async function refreshHomepageCache(): Promise<HomepageCategory[]> {
         const results = await Promise.all(TARGET_CATEGORIES.map(async (tag) => {
             try {
                 const searchResults = await searchJav(tag, 1);
-                if (searchResults.videos.length > 0) {
+                if (searchResults && searchResults.videos && searchResults.videos.length > 0) {
                     return {
                         title: tag,
                         videos: searchResults.videos.slice(0, 10)
@@ -428,7 +434,7 @@ export async function getJavWatchData(id: string): Promise<WatchPageData | null>
             }
         }
         
-        const $ = cheerio.load(html);
+        const $ = cheerio.load(html || "");
         const iframeSrc = $('iframe').attr('src');
         if (iframeSrc && !servers.some(s => s.iframe === iframeSrc)) {
             servers.push({ name: 'Backup Server', iframe: iframeSrc });
@@ -463,13 +469,15 @@ export async function getJavWatchData(id: string): Promise<WatchPageData | null>
                 // For upload18.org / videy.li / etc.
                 if (playUrl.includes('upload18.org') || playUrl.includes('videy.li') || playUrl.includes('doodstream')) {
                     const html = await fetchWithTimeout(playUrl);
-                    // Match .mp4 links in the HTML or scripts
-                    const mp4Match = html.match(/https?:\/\/[^"']+\.mp4[^"']*/i);
-                    if (mp4Match) return mp4Match[0];
-                    
-                    // Fallback for doodstream patterns
-                    const doodMatch = html.match(/pass_md5\/([^"']+)/i);
-                    if (doodMatch) return playUrl; // Still need the landing page for complex ones
+                    if (html) {
+                        // Match .mp4 links in the HTML or scripts
+                        const mp4Match = html.match(/https?:\/\/[^"']+\.mp4[^"']*/i);
+                        if (mp4Match) return mp4Match[0];
+                        
+                        // Fallback for doodstream patterns
+                        const doodMatch = html.match(/pass_md5\/([^"']+)/i);
+                        if (doodMatch) return playUrl; // Still need the landing page for complex ones
+                    }
                 }
             } catch (e) {
                 console.error("Extraction error:", e);

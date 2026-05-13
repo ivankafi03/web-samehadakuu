@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import Link from "next/link";
 import AnimeSection from "@/components/AnimeSection";
 import HeroSlider from "@/components/HeroSlider";
-import { getHomepageCategories } from "@/lib/jav";
+import AdNative from "@/components/ads/AdNative";
+import { getHomepageCategories, AnimeLatest } from "@/lib/jav";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +44,7 @@ export default async function Home() {
               const videosToShow = idx === 0 ? category.videos.slice(1) : category.videos;
               if (videosToShow.length === 0) return null;
 
-              const javData = videosToShow.map((item, index) => ({
+              const javData = videosToShow.map((item: AnimeLatest, index: number) => ({
                 id: index + 1,
                 title: item.title,
                 image: item.image,
@@ -56,13 +57,19 @@ export default async function Home() {
 
               const sectionHref = CATEGORY_MAP[category.title] || `/search?q=${encodeURIComponent(category.title)}`;
 
-              return (
-                <AnimeSection
-                  key={idx}
-                  title={category.title}
-                  data={javData}
-                  href={sectionHref}
-                />
+               return (
+                <div key={idx} className="flex flex-col gap-12">
+                  <AnimeSection
+                    title={category.title}
+                    data={javData}
+                    href={sectionHref}
+                  />
+                  {idx === 2 && (
+                    <div className="flex justify-center -my-4">
+                      <AdNative />
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>

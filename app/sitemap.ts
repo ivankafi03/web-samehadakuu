@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next'
-import { getLatestAnime, getSlugFromUrl } from '@/lib/anime'
+import { getLatestAnime, getSlugFromUrl, AnimeLatest } from '@/lib/cuanflix'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const latestAnime = await getLatestAnime()
     const baseUrl = 'https://cuanflix.com' // Optional: provide your custom domain
 
-    const animeLinks = latestAnime.map((anime) => ({
+    const animeLinks = latestAnime.map((anime: AnimeLatest) => ({
         url: `${baseUrl}/watch/${getSlugFromUrl(anime.link)}`,
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
