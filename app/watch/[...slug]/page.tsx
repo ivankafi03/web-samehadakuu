@@ -38,8 +38,8 @@ export async function generateMetadata({
     const title = watchData?.title || path.split('/').pop()?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || "Watch Anime";
 
     return {
-        title: `Watch ${title} Online - Cuanflix`,
-        description: `Stream ${title} in HD quality for free on Cuanflix. High speed servers and premium experience.`,
+        title: `Nonton ${title} Sub Indo - Samehadakuu`,
+        description: `Streaming ${title} Subtitle Indonesia kualitas HD gratis di Samehadakuu. Server kenceng dan pengalaman nonton anime terbaik.`,
     };
 }
 
@@ -83,12 +83,19 @@ export default async function WatchPrettyPage({
 
     if (path.startsWith('jav/')) {
         const id = path.split('/').pop() || '';
-        watchData = await getJavWatchData(id);
-        const detail = await getJavDetail(id);
-        seriesDetail = detail;
+        const [watchRes, detailRes] = await Promise.all([
+            getJavWatchData(id),
+            getJavDetail(id)
+        ]);
+        watchData = watchRes;
+        seriesDetail = detailRes;
     } else {
-        watchData = await getWatchPageData(url);
-        seriesDetail = await getAnimeDetail(url);
+        const [watchRes, detailRes] = await Promise.all([
+            getWatchPageData(url),
+            getAnimeDetail(url)
+        ]);
+        watchData = watchRes;
+        seriesDetail = detailRes;
     }
 
     // Fetch related anime based on the first genre
@@ -166,8 +173,8 @@ export default async function WatchPrettyPage({
                                 <Sparkles className="w-4 h-4 text-primary" />
                                 <span className="text-primary font-black tracking-widest text-[10px] uppercase">Exclusive Access</span>
                             </div>
-                            <h2 className="text-xl md:text-2xl font-black text-white leading-tight">Get Rewards & Minimize Ads</h2>
-                            <p className="text-zinc-500 font-medium text-sm max-w-xl">Login to earn rewards automatically and enjoy a cleaner, ad-lite experience with fewer pop-ups.</p>
+                            <h2 className="text-xl md:text-2xl font-black text-white leading-tight">Samehadakuu VIP</h2>
+                            <p className="text-zinc-500 font-medium text-sm max-w-xl">Login untuk simpan riwayat tontonan dan nikmati pengalaman nonton anime tanpa gangguan iklan pop-up.</p>
                         </div>
                         <div className="flex items-center gap-3 relative z-10 w-full md:w-auto">
                             <Link href="/auth/login" className="flex-1 md:flex-none px-6 py-3 bg-primary text-black rounded-xl font-black text-xs hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20 text-center uppercase tracking-wider">

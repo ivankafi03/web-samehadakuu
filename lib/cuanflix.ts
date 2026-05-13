@@ -1,4 +1,6 @@
 import * as cheerio from 'cheerio';
+import prisma from './prisma';
+import crypto from 'crypto';
 
 const SOURCE_URL = "https://samehadaku.li/";
 
@@ -485,7 +487,20 @@ export async function getPopularAnime(): Promise<AnimeLatest[]> {
 }
 
 export async function getAnimeDetail(url: string): Promise<AnimeDetail | null> {
+    const CACHE_KEY = `detail_v4_${crypto.createHash('md5').update(url).digest('hex')}`;
+    
     try {
+        // 1. Cek Cache
+        const cached = await prisma.contentCache.findUnique({
+            where: { key: CACHE_KEY }
+        });
+
+        if (cached) {
+            const cacheData = JSON.parse(cached.data);
+            const age = Date.now() - new Date(cached.updatedAt).getTime();
+            if (age < 7200000) return cacheData; // 2 hours
+        }
+
         let targetUrl = normalizeUrl(url);
 
         // Detection: If it's an episode page, find the series link first
@@ -573,7 +588,7 @@ export async function getAnimeDetail(url: string): Promise<AnimeDetail | null> {
             }
         });
 
-        return {
+        const result = {
             title,
             originalTitle: info['original title'] || info['japanese'] || info['english'] || '',
             synopsis,
@@ -585,6 +600,15 @@ export async function getAnimeDetail(url: string): Promise<AnimeDetail | null> {
             genres,
             episodes
         };
+
+        // Simpan ke Cache
+        prisma.contentCache.upsert({
+            where: { key: CACHE_KEY },
+            update: { data: JSON.stringify(result), updatedAt: new Date() },
+            create: { key: CACHE_KEY, data: JSON.stringify(result) }
+        }).catch(e => console.error("Cache save error:", e));
+
+        return result;
     } catch (error) {
         console.error('Error scraping anime detail:', error);
         return null;
@@ -592,9 +616,26 @@ export async function getAnimeDetail(url: string): Promise<AnimeDetail | null> {
 }
 
 export async function getWatchPageData(url: string): Promise<WatchPageData | null> {
+    const CACHE_KEY = `watch_v4_${crypto.createHash('md5').update(url).digest('hex')}`;
+    
     try {
+        // 1. Cek Cache di Database
+        const cached = await prisma.contentCache.findUnique({
+            where: { key: CACHE_KEY }
+        });
+
+        if (cached) {
+            const cacheData = JSON.parse(cached.data);
+            const age = Date.now() - new Date(cached.updatedAt).getTime();
+            // Cache valid selama 2 jam (7200000 ms)
+            if (age < 7200000) {
+                return cacheData;
+            }
+        }
+
+        // 2. Jika tidak ada cache atau sudah expired, lakukan Scraping
         const html = await fetchWithTimeout(url, {
-            next: { revalidate: 3600 } // 1 hour
+            next: { revalidate: 3600 } // Next.js level cache (1 hour)
         });
         const $ = cheerio.load(html);
 
@@ -718,7 +759,16 @@ export async function getWatchPageData(url: string): Promise<WatchPageData | nul
             }
         });
 
-        return { title, poster, rating, episode, type: typeValue, servers, downloads };
+        const result = { title, poster, rating, episode, type: typeValue, servers, downloads };
+
+        // 3. Simpan ke Cache Database (Jangan ditunggu/await biar nggak bikin lama response)
+        prisma.contentCache.upsert({
+            where: { key: CACHE_KEY },
+            update: { data: JSON.stringify(result), updatedAt: new Date() },
+            create: { key: CACHE_KEY, data: JSON.stringify(result) }
+        }).catch(e => console.error("Cache save error:", e));
+
+        return result;
     } catch (error) {
         console.error('Error scraping watch page data:', error);
         return null;
