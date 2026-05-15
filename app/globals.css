@@ -3,7 +3,7 @@
 :root {
   --background: #121212; /* Material Dark Surface */
   --foreground: #e0e0e0; /* Material High Emphasis Text */
-  --primary: #f472b6; /* Pastel Pink (Tailwind pink-400) */
+  --primary: #ef4444; /* Red (Tailwind red-500) */
   --primary-foreground: #000000;
   --secondary: #1e1e1e; /* Material Dark Elevated */
   --secondary-foreground: #e0e0e0;
@@ -75,13 +75,13 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(244, 114, 182, 0.2);
+  background: rgba(239, 68, 68, 0.2);
   border-radius: 99px;
   transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(244, 114, 182, 0.5);
+  background: rgba(239, 68, 68, 0.5);
 }
 
 /* No scrollbar but scrollable */
